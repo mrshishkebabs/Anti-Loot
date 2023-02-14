@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 370944431}
   - component: {fileID: 370944430}
   - component: {fileID: 370944429}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: groundry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1276249058}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: platforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 1717516296}
   - component: {fileID: 1717516297}
   m_Layer: 0
-  m_Name: Player(placeholder)
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -405,6 +405,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  rb: {fileID: 1717516296}
+  jumpForce: 10
+  ground:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckDistance: 0.6
+  groundCheckOffset: {x: 0.5, y: 0, z: 0}
 --- !u!212 &1717516294
 SpriteRenderer:
   m_ObjectHideFlags: 0
