@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundCheckOffset;
     private bool grounded;
     private bool jumping = false;
+    public bool doubleJumpActive = false;
+    private bool doubleJumpUsed = false;
 
 
 
@@ -73,6 +75,13 @@ public class PlayerController : MonoBehaviour
             
             if(grounded)
             {
+                doubleJumpUsed = false;
+                jumping = true;
+            }
+
+            else if (doubleJumpActive && !doubleJumpUsed)
+            {
+                doubleJumpUsed = true;
                 jumping = true;
             }
         }
