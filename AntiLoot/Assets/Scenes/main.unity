@@ -413,6 +413,8 @@ MonoBehaviour:
   groundCheckDistance: 0.6
   groundCheckOffset: {x: 0.5, y: 0, z: 0}
   doubleJumpActive: 1
+  dashActive: 1
+  dashForce: 6
 --- !u!212 &1717516294
 SpriteRenderer:
   m_ObjectHideFlags: 0

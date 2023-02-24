@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     //anything else can be private, as to not crowd the Unity editor
     //movement
     public float speed;
+    bool movingLeft = false;
+    bool movingRight = false;
     
     //jumping
     public Rigidbody2D rb;
@@ -20,7 +22,12 @@ public class PlayerController : MonoBehaviour
     public bool doubleJumpActive = false;
     private bool doubleJumpUsed = false;
 
-
+    //dash
+    private bool dashing = false;
+    private bool dashUsed = true;
+    public bool dashActive = false;
+    public float dashForce = 4;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +73,8 @@ public class PlayerController : MonoBehaviour
 
         The rest of the process is kinda simple: 
             if player is grounded, apply an upward force to the player to jump
-            if not grounded, dont jump.
+            if not grounded, but double jump has not been used(false), apply another upward force and mark double jump as used(true).
+            if not grounded and double jump has been used, dont jump
         */
 
         grounded = GroundCheck();
@@ -76,6 +84,7 @@ public class PlayerController : MonoBehaviour
             if(grounded)
             {
                 doubleJumpUsed = false;
+                dashUsed = false; //player can only dash while in the air, so dash will also reset when player is on the ground
                 jumping = true;
             }
 
@@ -86,6 +95,49 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        /*
+         CHECKING MOVEMENT DIRECTION 
+         if xVel is positive(less than 0), player is moving right
+         if negative, moving left
+         checking for phasing and animatons
+         (might swtich direction check to check for pressing a or d later, for more accuracy.)
+        */
+        if(xVel < 0)//moving left
+        {
+            movingLeft = true;
+            movingRight = false;
+        }
+        else if (xVel > 0)//moving right
+        {
+            movingLeft = false;
+            movingRight = true;
+        }
+
+        /*
+        DASHING
+        kinda similar to jumping: 
+        -bool in update(). 
+        -on button press, bool true
+        -on bool true: do physics movement in fixedupdate(), set bool to false
+        dun
+        
+        dash will be set to LEFT CLICK for now
+
+        okay there's a lot of bools so I'll go thru that to for clarity:
+        -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
+        -dashing is for the dash itself. when true, do the physics thing
+        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps again
+        
+         MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
+         */
+        
+        if(dashActive && Input.GetMouseButtonDown(0) && !dashUsed)
+        {
+            dashing = true;
+            dashUsed = true;
+        }
+
+
     }
 
     private void FixedUpdate()
@@ -94,6 +146,16 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector3.up * jumpForce;
             jumping = false;
+        }
+
+        if(dashing)
+        {
+            if(movingLeft)
+                rb.velocity = Vector3.left * dashForce;
+
+            if (movingRight)
+                rb.velocity = Vector3.right * dashForce;
+            dashing = false;
         }
     }
 
