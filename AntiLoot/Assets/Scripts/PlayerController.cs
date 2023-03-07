@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     bool movingLeft = false;
     bool movingRight = false;
+    float xVel;
     
     //jumping
     public Rigidbody2D rb;
@@ -27,7 +28,16 @@ public class PlayerController : MonoBehaviour
     private bool dashUsed = true;
     public bool dashActive = false;
     public float dashForce = 4;
-    
+
+    //wall jump
+    public LayerMask wall;
+    public float wallCheckDistance;
+    public Vector3 wallCheckOffset;
+    private bool onWallLeft;
+    private bool onWallRight;
+    private bool wallJumpLeft = false;
+    private bool wallJumpRight = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,8 +67,10 @@ public class PlayerController : MonoBehaviour
          */
 
 
-        float xVel = Input.GetAxisRaw("Horizontal");
-        transform.Translate(xVel * speed * Time.deltaTime, 0, 0);
+        xVel = Input.GetAxisRaw("Horizontal");
+        //transform.Translate(xVel * speed * Time.deltaTime, 0, 0);
+
+        
 
         /*
         JUMPING(this requires different components in different places, but I'll do the whole explanation here)
@@ -78,9 +90,10 @@ public class PlayerController : MonoBehaviour
         */
 
         grounded = GroundCheck();
+        onWallLeft = WallCheck();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            
+            //Debug.Log(onWallLeft);
             if(grounded)
             {
                 doubleJumpUsed = false;
@@ -93,6 +106,13 @@ public class PlayerController : MonoBehaviour
                 doubleJumpUsed = true;
                 jumping = true;
             }
+
+            if(onWallLeft)
+            {
+                wallJumpLeft = true;
+                wallJumpRight = false;
+            }
+
         }
 
         /*
@@ -138,24 +158,50 @@ public class PlayerController : MonoBehaviour
         }
 
 
+        /*
+        WALL JUMP!
+        
+
+        */
+
+
     }
 
     private void FixedUpdate()
     {
+        /*
+        PHYSICS MOVEMENT 
+        */
+        rb.velocity = new Vector2(xVel * speed * Time.deltaTime, rb.velocity.y);
+        Debug.Log(onWallLeft);
+        if (onWallLeft && !grounded)
+        {
+            if(rb.velocity.x < 0)
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            
+        }
+        
+        
         if (jumping)
         {
-            rb.velocity = Vector3.up * jumpForce;
+            rb.velocity = Vector2.up * jumpForce;
             jumping = false;
         }
 
         if(dashing)
         {
             if(movingLeft)
-                rb.velocity = Vector3.left * dashForce;
+                rb.velocity = Vector2.left * dashForce;
 
             if (movingRight)
-                rb.velocity = Vector3.right * dashForce;
+                rb.velocity = Vector2.right * dashForce;
             dashing = false;
+        }
+
+        if(wallJumpLeft)
+        {
+            rb.velocity = Vector2.left * jumpForce;
+            wallJumpLeft = false;
         }
     }
 
@@ -163,11 +209,21 @@ public class PlayerController : MonoBehaviour
     {
         //params for raycast: start pos, direction, distance, target(ground layer)
         bool check = (
-            Physics2D.Raycast(transform.position + groundCheckOffset, Vector3.down, groundCheckDistance, ground) ||
-            Physics2D.Raycast(transform.position - groundCheckOffset, Vector3.down, groundCheckDistance, ground));
+            Physics2D.Raycast(transform.position + groundCheckOffset, Vector2.down, groundCheckDistance, ground) ||
+            Physics2D.Raycast(transform.position - groundCheckOffset, Vector2.down, groundCheckDistance, ground));
 
         return check;
     }
 
-    
+    private bool WallCheck()
+    {
+        //params for raycast: start pos, direction, distance, target(wall layer)
+        bool left = (
+            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.left, wallCheckDistance, wall) ||
+            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.left, wallCheckDistance, wall));
+
+        return left;
+    }
+
+
 }
