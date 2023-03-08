@@ -90,7 +90,8 @@ public class PlayerController : MonoBehaviour
         */
 
         grounded = GroundCheck();
-        onWallLeft = WallCheck();
+        onWallLeft = WallCheckLeft();
+        onWallRight = WallCheckRight();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Debug.Log(onWallLeft);
@@ -171,9 +172,17 @@ public class PlayerController : MonoBehaviour
     {
         /*
         PHYSICS MOVEMENT 
+        here, we're adding velocity to the player's rigidbody. to move left or right, we take the xVel
+        (which is -1 or 1 based on player input) and multiply it by our speed value and delta time.
+        we keep y as is to maintain upward/downward force
         */
         rb.velocity = new Vector2(xVel * speed * Time.deltaTime, rb.velocity.y);
-        Debug.Log(onWallLeft);
+        
+
+        /*
+        there wasa bug that allowed the player to stick to the wall in the air by moving into the wall.
+        this fixes that by setting the velocity to 0 if the player is on a wall and in the air
+        */
         if (onWallLeft && !grounded)
         {
             if(rb.velocity.x < 0)
@@ -186,6 +195,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpForce;
             jumping = false;
+            Debug.Log(rb.velocity);
         }
 
         if(dashing)
@@ -200,7 +210,7 @@ public class PlayerController : MonoBehaviour
 
         if(wallJumpLeft)
         {
-            rb.velocity = Vector2.left * jumpForce;
+            rb.velocity = Vector2.right * jumpForce;
             wallJumpLeft = false;
         }
     }
@@ -215,15 +225,29 @@ public class PlayerController : MonoBehaviour
         return check;
     }
 
-    private bool WallCheck()
+    private bool WallCheckLeft()
     {
         //params for raycast: start pos, direction, distance, target(wall layer)
         bool left = (
             Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.left, wallCheckDistance, wall) ||
             Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.left, wallCheckDistance, wall));
 
+
+        bool right = (
+            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.right, wallCheckDistance, wall) ||
+            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.right, wallCheckDistance, wall));
+
         return left;
     }
 
 
+    private bool WallCheckRight()
+    {
+        //params for raycast: start pos, direction, distance, target(wall layer)
+        bool right = (
+            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.right, wallCheckDistance, wall) ||
+            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.right, wallCheckDistance, wall));
+
+        return right;
+    }
 }
