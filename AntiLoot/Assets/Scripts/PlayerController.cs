@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     
     //jumping
     public Rigidbody2D rb;
-    public float jumpForce = 10;
+    public Vector2 jumpForce;
     public LayerMask ground;
     public float groundCheckDistance;
     public Vector3 groundCheckOffset;
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     //dash
     private bool dashing = false;
     private bool dashUsed = true;
+    public float dashTime = 0.2f;
     public bool dashActive = false;
     public float dashForce = 4;
 
@@ -33,10 +34,13 @@ public class PlayerController : MonoBehaviour
     public LayerMask wall;
     public float wallCheckDistance;
     public Vector3 wallCheckOffset;
+    public float wallSlideSpeed;
+    public Vector2 wallJumpForce;
     private bool onWallLeft;
     private bool onWallRight;
     private bool wallJumpLeft = false;
     private bool wallJumpRight = false;
+    private bool wallSliding = false;
 
 
     // Start is called before the first frame update
@@ -48,6 +52,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
+        FOR THE DASH:
+        we dont want any other movements to interrupt the dash while it's happening, 
+        so if the player is dashing, skip the rest of the update function so the player
+        can't do anything else
+        */
+        if (dashing)
+            return;
+        
+        
         /*
         SIMPLE MOVEMENT
         Horizontal is an input built into Unity. It starts at 0.(access Horizontal with Input.GetAxisRaw())
@@ -92,6 +106,7 @@ public class PlayerController : MonoBehaviour
         grounded = GroundCheck();
         onWallLeft = WallCheckLeft();
         onWallRight = WallCheckRight();
+        wallSliding = WallSlideCheck();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Debug.Log(onWallLeft);
@@ -112,6 +127,11 @@ public class PlayerController : MonoBehaviour
             {
                 wallJumpLeft = true;
                 wallJumpRight = false;
+            }
+            else if (onWallRight)
+            {
+                wallJumpLeft = false;
+                wallJumpRight = true;
             }
 
         }
@@ -142,20 +162,20 @@ public class PlayerController : MonoBehaviour
         -on bool true: do physics movement in fixedupdate(), set bool to false
         dun
         
-        dash will be set to LEFT CLICK for now
+        dash will be set to LEFT SHIFT for now
 
         okay there's a lot of bools so I'll go thru that to for clarity:
         -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
         -dashing is for the dash itself. when true, do the physics thing
-        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps again
+        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps or wall jumps again
         
          MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
          */
         
-        if(dashActive && Input.GetMouseButtonDown(0) && !dashUsed)
+        if(dashActive && Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded) 
         {
-            dashing = true;
-            dashUsed = true;
+            //call the coroutine
+            StartCoroutine(Dash());
         }
 
 
@@ -165,53 +185,84 @@ public class PlayerController : MonoBehaviour
 
         */
 
-
+        //Debug.Log(rb.velocity);
     }
 
     private void FixedUpdate()
     {
         /*
+        FOR THE DASH:
+        we dont want any other movements to interrupt the dash while it's happening, 
+        so if the player is dashing, skip the rest of the update function so the player
+        can't do anything else
+        */
+        if (dashing)
+            return;
+
+        /*
         PHYSICS MOVEMENT 
         here, we're adding velocity to the player's rigidbody. to move left or right, we take the xVel
-        (which is -1 or 1 based on player input) and multiply it by our speed value and delta time.
+        (which is -1 or 1 based on player input) and multiply it by our speed value.
         we keep y as is to maintain upward/downward force
         */
-        rb.velocity = new Vector2(xVel * speed * Time.deltaTime, rb.velocity.y);
+        rb.velocity = new Vector2(xVel * speed, rb.velocity.y);
         
 
         /*
         there wasa bug that allowed the player to stick to the wall in the air by moving into the wall.
         this fixes that by setting the velocity to 0 if the player is on a wall and in the air
         */
-        if (onWallLeft && !grounded)
-        {
-            if(rb.velocity.x < 0)
+       if (!grounded)
+       {
+           if(onWallLeft && rb.velocity.x < 0)
+               rb.velocity = new Vector2(0, rb.velocity.y);
+
+           else if(onWallRight && rb.velocity.x > 0)
                 rb.velocity = new Vector2(0, rb.velocity.y);
-            
+
         }
-        
-        
+        /*
+        JUMPING FLOW SCHEME
+        jump
+        -after jump, can double jump, dash, or wall jump
+        -after double jump, can dash or wall jump
+        -after dash, can wall jump
+        -after wall jump, can double jump or dash
+        -essentially, wall jumping refreshes double jump and dash
+        */
         if (jumping)
         {
-            rb.velocity = Vector2.up * jumpForce;
+            //rb.velocity = Vector2.up * jumpForce;
+            rb.AddForce(jumpForce, ForceMode2D.Impulse);
             jumping = false;
-            Debug.Log(rb.velocity);
+            //Debug.Log(rb.velocity);
         }
-
-        if(dashing)
-        {
-            if(movingLeft)
-                rb.velocity = Vector2.left * dashForce;
-
-            if (movingRight)
-                rb.velocity = Vector2.right * dashForce;
-            dashing = false;
-        }
+        /*
+        */
 
         if(wallJumpLeft)
         {
-            rb.velocity = Vector2.right * jumpForce;
+            rb.velocity = wallJumpForce;
+            //rb.AddForce(wallJumpForce, ForceMode2D.Impulse);
             wallJumpLeft = false;
+            doubleJumpUsed = false;
+            dashUsed = false;
+        }
+
+        if (wallJumpRight)
+        {
+            rb.velocity = new Vector2(-wallJumpForce.x, wallJumpForce.y);
+            //rb.AddForce(wallJumpForce * new Vector2(-1, 1), ForceMode2D.Impulse);
+            wallJumpRight = false;
+            doubleJumpUsed = false;
+            dashUsed = false;
+            //Debug.Log(wallJumpForce * Vector2.left);
+        }
+
+        if (wallSliding)
+        {
+            if (rb.velocity.y < -wallSlideSpeed)
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
         }
     }
 
@@ -232,11 +283,6 @@ public class PlayerController : MonoBehaviour
             Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.left, wallCheckDistance, wall) ||
             Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.left, wallCheckDistance, wall));
 
-
-        bool right = (
-            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.right, wallCheckDistance, wall) ||
-            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.right, wallCheckDistance, wall));
-
         return left;
     }
 
@@ -250,4 +296,68 @@ public class PlayerController : MonoBehaviour
 
         return right;
     }
+
+    private bool WallSlideCheck()
+    {
+        if ((onWallLeft || onWallRight) && !grounded && rb.velocity.y < 0)
+            return true;
+
+        else
+            return false;
+    }
+    /*
+    THIS IS A COROUTINE. NEW TECH WEEEEE 
+    */
+    private IEnumerator Dash()
+    {
+        /*
+        The process, line by line: 
+        set dashUsed to true
+        set dashing to true
+        store gravity scale (effect of grav on player) in var
+        set gravity scale to 0 so the player dashes in a straight line
+        apply dash force based on direction
+        -if facing left, apply force to left
+        -if right, apply right
+        tell the code to wait a bit while the dash happens before moving to the next line
+        -done with 'yield return'
+        put gravity scale back on player
+        set dashing to false
+        donezo
+        */
+
+        dashUsed = true;
+        dashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0;
+
+        
+        if (movingLeft)
+            rb.velocity = Vector2.left * dashForce;
+
+        if (movingRight)
+            rb.velocity = Vector2.right * dashForce;
+
+        yield return new WaitForSeconds(dashTime);
+        rb.gravityScale = originalGravity;
+        dashing = false;
+    }
+
+    /*
+     SPRITES
+    TOP 2 ROWS -1 ARE IDLE
+
+    NEXT 2 ROWS ARE WALK
+
+    NEXT ROW AND 4 IN THE FOLLOWING ARE JUMP
+    
+    REMAINING ROW AND NEXT 2 ROWS ARE WALL JUMPS
+
+    NEXT ROW AND FIRST IN FOLLOWING ARE SLIDE
+
+    REMAINING ROW AND FIRST 2 ARE DUCK
+
+    REST IS DASH
+     
+     */
 }
