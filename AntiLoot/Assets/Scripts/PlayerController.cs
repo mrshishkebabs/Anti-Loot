@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown,JumpDown, WallSlide, WallCling};
 public class PlayerController : MonoBehaviour
 {
+    public PlayerStates playerState = PlayerStates.Idle;
+
     //variables to be adjusted in Unity editor need to be public
     //anything else can be private, as to not crowd the Unity editor
     //movement
@@ -33,8 +36,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask wall;
     public float wallCheckDistance;
     public Vector3 wallCheckOffset;
-    private bool onWallLeft;
-    private bool onWallRight;
+    public bool onWallLeft;
+    public bool onWallRight;
     private bool wallJumpLeft = false;
     private bool wallJumpRight = false;
 
@@ -67,7 +70,7 @@ public class PlayerController : MonoBehaviour
          */
 
 
-        xVel = Input.GetAxisRaw("Horizontal");
+        xVel = Input.GetAxisRaw(PlayerInput.HORIZONTAL);
         //transform.Translate(xVel * speed * Time.deltaTime, 0, 0);
 
         
@@ -127,11 +130,14 @@ public class PlayerController : MonoBehaviour
         {
             movingLeft = true;
             movingRight = false;
+            transform.localScale = new Vector3(-1, 1, 1);
+
         }
         else if (xVel > 0)//moving right
         {
             movingLeft = false;
             movingRight = true;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
         /*
@@ -165,7 +171,23 @@ public class PlayerController : MonoBehaviour
 
         */
 
-
+        //Animation State
+        if (xVel != 0)
+        {
+            playerState = PlayerStates.Walk;
+        }
+        else if (rb.velocity.y > 0)
+        {
+            playerState = PlayerStates.JumpUp;
+        }
+        else if(rb.velocity.y < 0)
+        {
+            playerState = PlayerStates.JumpDown;
+            if (onWallLeft || onWallRight)
+                playerState = PlayerStates.WallSlide;
+        }
+        else
+            playerState = PlayerStates.Idle;
     }
 
     private void FixedUpdate()
@@ -249,5 +271,11 @@ public class PlayerController : MonoBehaviour
             Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.right, wallCheckDistance, wall));
 
         return right;
+    }
+
+    private void flip()
+    {
+        if (transform.localScale == new Vector3(1, 1, 1)) transform.localScale = new Vector3(-1, 1, 1);
+        else transform.localScale = new Vector3(1, 1, 1);
     }
 }
