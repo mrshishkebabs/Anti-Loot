@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public float dashTime = 0.2f;
     public bool dashActive = false;
     public float dashForce = 4;
+    public TrailRenderer trail;
 
     //wall jump
     public LayerMask wall;
@@ -352,8 +353,10 @@ public class PlayerController : MonoBehaviour
         apply dash force based on direction
         -if facing left, apply force to left
         -if right, apply right
+        draw the trail on screen
         tell the code to wait a bit while the dash happens before moving to the next line
         -done with 'yield return'
+        remove the trail from the screen
         put gravity scale back on player
         set dashing to false
         donezo
@@ -371,7 +374,9 @@ public class PlayerController : MonoBehaviour
         if (movingRight)
             rb.velocity = Vector2.right * dashForce;
 
+        trail.emitting = true;
         yield return new WaitForSeconds(dashTime);
+        trail.emitting = false;
         rb.gravityScale = originalGravity;
         dashing = false;
     }
