@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
     public bool onWallRight;
     public float wallSlideSpeed;
     public Vector2 wallJumpForce;
-    private bool onWallLeft;
-    private bool onWallRight;
     private bool wallJumpLeft = false;
     private bool wallJumpRight = false;
     private bool wallSliding = false;
@@ -171,7 +169,7 @@ public class PlayerController : MonoBehaviour
         -on bool true: do physics movement in fixedupdate(), set bool to false
         dun
         
-        dash will be set to LEFT SHIFT for now
+        dash will be set to W for now
 
         okay there's a lot of bools so I'll go thru that to for clarity:
         -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
