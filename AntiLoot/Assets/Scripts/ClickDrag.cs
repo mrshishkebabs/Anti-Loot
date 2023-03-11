@@ -16,6 +16,8 @@ public class ClickDrag : MonoBehaviour
     private void Start()
     {
         //mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //to make sure the clones have the trap tag
+        this.tag = "trap";
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -36,7 +38,8 @@ public class ClickDrag : MonoBehaviour
         huh, that was easier than I thought to pick up:)
 
         */
-        if (gameObject.GetComponent<Collider2D>().isTrigger) {
+        if (gameObject.GetComponent<Collider2D>().isTrigger) 
+        {
             Instantiate(trap, origPos, Quaternion.identity);
             difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         }

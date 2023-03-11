@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown,JumpDown, WallSlide, WallCling};
 public class PlayerController : MonoBehaviour
@@ -375,21 +376,12 @@ public class PlayerController : MonoBehaviour
         dashing = false;
     }
 
-    /*
-     SPRITES
-    TOP 2 ROWS -1 ARE IDLE
-
-    NEXT 2 ROWS ARE WALK
-
-    NEXT ROW AND 4 IN THE FOLLOWING ARE JUMP
-    
-    REMAINING ROW AND NEXT 2 ROWS ARE WALL JUMPS
-
-    NEXT ROW AND FIRST IN FOLLOWING ARE SLIDE
-
-    REMAINING ROW AND FIRST 2 ARE DUCK
-
-    REST IS DASH
-     
-     */
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "trap" )
+        {
+            Debug.Log("reset");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
 }
