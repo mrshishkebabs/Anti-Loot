@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 16}
   m_Selected: 0
   m_LastSelected: 0
+
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -103,6 +104,7 @@ MonoBehaviour:
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
   controlID: 94
+
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -432,6 +434,7 @@ MonoBehaviour:
     m_SelectedIDs: b85d0000
     m_LastClickedID: 23992
     m_ExpandedIDs: 00000000685d0000d85d0000da5d0000dc5d0000de5d0000e05d0000
+
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -460,6 +463,7 @@ MonoBehaviour:
     m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: ffffffff00000000685d0000d85d0000da5d0000dc5d0000de5d0000e05d0000
+
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -587,9 +591,11 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
+
       m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 2cfbffff2a5d0000
+
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -896,6 +902,7 @@ MonoBehaviour:
     m_Target: {x: 2.3746345, y: -3.603364, z: 0.1767826}
     speed: 2
     m_Value: {x: 2.3746345, y: -3.603364, z: 0.1767826}
+
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -949,6 +956,7 @@ MonoBehaviour:
     m_Target: 0.9187439
     speed: 2
     m_Value: 0.9187439
+
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -997,6 +1005,7 @@ MonoBehaviour:
     y: 73.6
     width: 830.80005
     height: 484.6
+
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1008,6 +1017,7 @@ MonoBehaviour:
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
   m_TargetSize: {x: 830.80005, y: 463.6}
+
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1021,11 +1031,11 @@ MonoBehaviour:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
-    vZoomLockedByDefault: 0
     m_HBaseRangeMin: -332.32004
     m_HBaseRangeMax: 332.32004
     m_VBaseRangeMin: -185.44
     m_VBaseRangeMax: 185.44
+
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1047,6 +1057,7 @@ MonoBehaviour:
       height: 463.6
     m_Scale: {x: 2, y: 2}
     m_Translation: {x: 254.44798, y: 136.0398}
+
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -1060,6 +1071,7 @@ MonoBehaviour:
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1038.5, y: 605.75}
+
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
