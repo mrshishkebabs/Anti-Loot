@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
     public bool onWallRight;
     public float wallSlideSpeed;
     public Vector2 wallJumpForce;
-    private bool onWallLeft;
-    private bool onWallRight;
     private bool wallJumpLeft = false;
     private bool wallJumpRight = false;
     private bool wallSliding = false;
