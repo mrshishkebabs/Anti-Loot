@@ -46,8 +46,16 @@ public class PlayerController : MonoBehaviour
     public Vector2 wallJumpForce;
     private bool wallJumpLeft = false;
     private bool wallJumpRight = false;
+    private float wallJumpDirection;
+    public float wallJumpTime;
+    public float wallJumpCounter;
+    public float wallJumpDuration;
+    private bool wallJumping;
+    
     private bool wallSliding = false;
-
+    
+    //debugging
+    //public Vector3 testLineLength;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +66,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //use this to visualize raycasts for debugging
+        //Debug.DrawLine(transform.position, transform.position + testLineLength);
+        //Debug.Log(rb.velocity);
+
         /*
         FOR THE DASH:
         we dont want any other movements to interrupt the dash while it's happening, 
@@ -129,12 +141,12 @@ public class PlayerController : MonoBehaviour
                 jumping = true;
             }
 
-            if(onWallLeft)
+            if(onWallLeft && !grounded)
             {
                 wallJumpLeft = true;
                 wallJumpRight = false;
             }
-            else if (onWallRight)
+            else if (onWallRight && !grounded)
             {
                 wallJumpLeft = false;
                 wallJumpRight = true;
@@ -148,7 +160,10 @@ public class PlayerController : MonoBehaviour
          if negative, moving left
          checking for phasing and animatons
          (might swtich direction check to check for pressing a or d later, for more accuracy.)
+         we dont want to flip the sprite while the player is wall jumping, so check only happens
+         if the player is not wall jumping
         */
+       
         if(xVel < 0)//moving left
         {
             movingLeft = true;
@@ -162,7 +177,7 @@ public class PlayerController : MonoBehaviour
             movingRight = true;
             transform.localScale = new Vector3(1, 1, 1);
         }
-
+        
         /*
         DASHING
         kinda similar to jumping: 
@@ -180,19 +195,12 @@ public class PlayerController : MonoBehaviour
         
          MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
          */
-        
-        if(dashActive && Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded) 
+
+        if (dashActive && Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded) 
         {
             //call the coroutine
             StartCoroutine(Dash());
         }
-
-
-        /*
-        WALL JUMP!
-        
-
-        */
 
 
         //Animation State
@@ -216,7 +224,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    { 
         /*
         FOR THE DASH:
         we dont want any other movements to interrupt the dash while it's happening, 
@@ -232,7 +240,9 @@ public class PlayerController : MonoBehaviour
         (which is -1 or 1 based on player input) and multiply it by our speed value.
         we keep y as is to maintain upward/downward force
         */
-        rb.velocity = new Vector2(xVel * speed, rb.velocity.y);
+        
+        if(!wallJumping)
+            rb.velocity = new Vector2(xVel * speed, rb.velocity.y);
         
 
         /*
@@ -266,7 +276,7 @@ public class PlayerController : MonoBehaviour
         }
         /*
         */
-
+        /*
         if(wallJumpLeft)
         {
             rb.velocity = wallJumpForce;
@@ -284,13 +294,15 @@ public class PlayerController : MonoBehaviour
             doubleJumpUsed = false;
             dashUsed = false;
             //Debug.Log(wallJumpForce * Vector2.left);
-        }
+        }*/
 
         if (wallSliding)
         {
             if (rb.velocity.y < -wallSlideSpeed)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
         }
+
+        WallJump();
     }
 
     private bool GroundCheck()
@@ -333,12 +345,44 @@ public class PlayerController : MonoBehaviour
 
     private bool WallSlideCheck()
     {
+        //maybe add an extra check for hoirzontal movement, so player can choose to hold and fall slowly or just drop?
         if ((onWallLeft || onWallRight) && !grounded && rb.velocity.y < 0)
             return true;
 
         else
             return false;
     }
+
+    private void WallJump()
+    {
+        if(onWallLeft || onWallRight && !grounded)
+        {
+            wallJumping = false;
+            wallJumpDirection = -transform.localScale.x;
+            wallJumpCounter = wallJumpTime;
+            CancelInvoke(nameof(StopWallJump));     //cancels ALL invoke calls in this script, including the one that comes later
+        }
+
+        else
+        {
+            wallJumpCounter -= Time.deltaTime;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && wallJumpCounter > 0)
+        {
+            wallJumping = true;
+            rb.velocity = new Vector2(wallJumpDirection * wallJumpForce.x, wallJumpForce.y);
+        }
+
+        //INVOKE: like calling a function, except you put it on timer and the function is called when timer hits 0
+        Invoke(nameof(StopWallJump), wallJumpDuration);
+    }
+
+    private void StopWallJump()
+    {
+        wallJumping = false;
+    }
+
     /*
     THIS IS A COROUTINE. NEW TECH WEEEEE 
     */
