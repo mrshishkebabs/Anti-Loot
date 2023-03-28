@@ -53,6 +53,11 @@ public class PlayerController : MonoBehaviour
     private bool wallJumping;
     
     private bool wallSliding = false;
+
+    public int hitsTillDead = 3;
+    public float hitCooldown = 0;
+    public float hitCooldownReset = 200f;
+    public GameObject hitCooldownIndicator;
     
     //debugging
     //public Vector3 testLineLength;
@@ -221,7 +226,10 @@ public class PlayerController : MonoBehaviour
         else
             playerState = PlayerStates.Idle;
 
+        HitCooldown();
     }
+
+    
 
     private void FixedUpdate()
     { 
@@ -425,12 +433,43 @@ public class PlayerController : MonoBehaviour
         dashing = false;
     }
 
+    private void Hit()
+    {
+        //call this function when the player takes a hit
+        //decrement from the hit counter, if counter at 0, death screen(to be implemented later, restart game for now)
+        //after hit, trigger a short cooldown period. if player is hit during cooldown, hit doesnt count
+        
+        //if the cooldown timer isnt counting down: take the hit, set the timer, check if the player is dead and reset if so, and set cooldown timer 
+        if (hitCooldown == 0)
+        { 
+            hitsTillDead--;
+            if (hitsTillDead == 0)
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            hitCooldown = hitCooldownReset;
+        }
+        
+        
+    }
+    /// <summary>
+    /// counts down the cooldown timer. called in Update so cooldown can count with out any dependancies
+    /// </summary>
+    private void HitCooldown()
+    {
+        if (hitCooldown > 0)
+        {
+            hitCooldown--;
+            hitCooldownIndicator.SetActive(true);
+        }
+        else
+            hitCooldownIndicator.SetActive(false);
+
+    }
+
     private void OnCollisionEnter2D(Collision2D col)
     {
         if(col.gameObject.tag == "trap" )
         {
-            Debug.Log("reset");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Hit();
         }
     }
 }
