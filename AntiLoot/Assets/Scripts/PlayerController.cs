@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     public float hitCooldown = 0;
     public float hitCooldownReset = 200f;
     public GameObject hitCooldownIndicator;
+    public GameObject lastLifeText; 
     
     //debugging
     //public Vector3 testLineLength;
@@ -458,10 +459,20 @@ public class PlayerController : MonoBehaviour
         if (hitCooldown > 0)
         {
             hitCooldown--;
-            hitCooldownIndicator.SetActive(true);
+            if(hitsTillDead > 0)
+            {
+                hitCooldownIndicator.SetActive(true);
+                if (hitsTillDead == 1)
+                    lastLifeText.SetActive(true);
+            }
+            
         }
         else
+        {
             hitCooldownIndicator.SetActive(false);
+            lastLifeText.SetActive(false);
+        }
+            
 
     }
 
