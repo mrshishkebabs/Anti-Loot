@@ -58,6 +58,11 @@ public class PlayerController : MonoBehaviour
     public float hitCooldown = 0;
     public float hitCooldownReset = 200f;
     public GameObject hitCooldownIndicator;
+    public GameObject lastLifeText;
+
+    //win condition
+    public bool reachedGoal = false;
+    private bool canMove = true;
     
     //debugging
     //public Vector3 testLineLength;
@@ -249,7 +254,7 @@ public class PlayerController : MonoBehaviour
         we keep y as is to maintain upward/downward force
         */
         
-        if(!wallJumping)
+        if(!wallJumping && canMove)
             rb.velocity = new Vector2(xVel * speed, rb.velocity.y);
         
 
@@ -257,7 +262,7 @@ public class PlayerController : MonoBehaviour
         there wasa bug that allowed the player to stick to the wall in the air by moving into the wall.
         this fixes that by setting the velocity to 0 if the player is on a wall and in the air
         */
-       if (!grounded)
+       if (!grounded && canMove)
        {
            if(onWallLeft && rb.velocity.x < 0)
                rb.velocity = new Vector2(0, rb.velocity.y);
@@ -275,7 +280,7 @@ public class PlayerController : MonoBehaviour
         -after wall jump, can double jump or dash
         -essentially, wall jumping refreshes double jump and dash
         */
-        if (jumping)
+        if (jumping && canMove)
         {
             //rb.velocity = Vector2.up * jumpForce;
             rb.AddForce(jumpForce, ForceMode2D.Impulse);
@@ -304,7 +309,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log(wallJumpForce * Vector2.left);
         }*/
 
-        if (wallSliding)
+        if (wallSliding && canMove)
         {
             if (rb.velocity.y < -wallSlideSpeed)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
@@ -443,9 +448,10 @@ public class PlayerController : MonoBehaviour
         if (hitCooldown == 0)
         { 
             hitsTillDead--;
-            if (hitsTillDead == 0)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            hitCooldown = hitCooldownReset;
+            if(hitsTillDead == 0)
+                canMove = false;
+            else
+                hitCooldown = hitCooldownReset;
         }
         
         
@@ -458,10 +464,20 @@ public class PlayerController : MonoBehaviour
         if (hitCooldown > 0)
         {
             hitCooldown--;
-            hitCooldownIndicator.SetActive(true);
+            if(hitsTillDead > 0)
+            {
+                hitCooldownIndicator.SetActive(true);
+                if (hitsTillDead == 1)
+                    lastLifeText.SetActive(true);
+            }
+            
         }
         else
+        {
             hitCooldownIndicator.SetActive(false);
+            lastLifeText.SetActive(false);
+        }
+            
 
     }
 
@@ -470,6 +486,12 @@ public class PlayerController : MonoBehaviour
         if(col.gameObject.tag == "trap" )
         {
             Hit();
+        }
+
+        if(col.gameObject.tag == "goal")
+        {
+            reachedGoal = true;
+            canMove = false;
         }
     }
 }
