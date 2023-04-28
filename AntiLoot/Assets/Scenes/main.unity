@@ -2483,7 +2483,7 @@ MonoBehaviour:
   playerState: 0
   speed: 6
   rb: {fileID: 1717516296}
-  jumpForce: {x: 0, y: 10}
+  jumpForce: 10
   ground:
     serializedVersion: 2
     m_Bits: 8
@@ -2507,8 +2507,6 @@ MonoBehaviour:
   wallJumpCounter: 0
   wallJumpDuration: 0.4
   hitsTillDead: 3
-  hitCooldown: 0
-  hitCooldownReset: 200
   hitCooldownIndicator: {fileID: 1756367371}
   lastLifeText: {fileID: 1150248943}
   reachedGoal: 0
