@@ -19,7 +19,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
-            GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 3;
+            GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 8;
         }
     }
 }

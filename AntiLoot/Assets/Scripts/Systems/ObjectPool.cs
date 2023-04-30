@@ -7,8 +7,8 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool instance;
 
     private List<GameObject> pooledObjects = new List<GameObject>();
-    private int amountToPool = 20;
-
+    
+    [SerializeField] private int amountToPool = 10;
     [SerializeField] private GameObject bulletPrefab;
 
     private void Awake()
