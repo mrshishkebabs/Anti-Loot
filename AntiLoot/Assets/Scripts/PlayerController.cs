@@ -28,19 +28,18 @@ public class PlayerController : MonoBehaviour
 
     //dash
     private bool dashing = false;
-    private bool dashUsed = true;
+    private bool dashUsed = false;
     public float dashTime = 0.2f;
-    public bool dashActive = false;
     public float dashForce = 4;
     public TrailRenderer trail;
 
     //wall jump
     public LayerMask wall;
     public float wallCheckDistance;
-    public Vector3 wallCheckOffset;
+    private Vector3 wallCheckOffset;
 
-    public bool onWallLeft;
-    public bool onWallRight;
+    public Transform wallCheck;
+    [SerializeField] private bool onWall;
     public float wallSlideSpeed;
     public Vector2 wallJumpForce;
     //private bool wallJumpLeft = false;
@@ -89,51 +88,14 @@ public class PlayerController : MonoBehaviour
             return;
         
         
-        /*
-        SIMPLE MOVEMENT
-        Horizontal is an input built into Unity. It starts at 0.(access Horizontal with Input.GetAxisRaw())
-        When the 'a' key is pressed, it's -1
-        When the 'd' key is pressed, it's 1
-        When nothing is pressed, it's 0
-        We can plug a variable set to Horizontal into the movement calculation
-        to automate left/right movement.
-
-        Use transfrom.Translate to move the player. It takes in a vector3 (x, y, z) for where the player is being moved.
-        Here, we're only moving on the x axis, so the speed calculation will only be in the x position, and the y and z
-        stay unchanged at 0.
-        
-        For the speed calculation, xVel determines left or right movement, speed is the speed, and 
-        Time.deltaTime ensures that movement in time-based and not frame rate based(so that a pc
-        with a lower frame rate can move the same way).
-         */
-
-
         xVel = Input.GetAxisRaw(PlayerInput.HORIZONTAL);
         //transform.Translate(xVel * speed * Time.deltaTime, 0, 0);
 
-        
-
-        /*
-        JUMPING(this requires different components in different places, but I'll do the whole explanation here)
-        Here we're using a raycast to check if the player is on the ground. When we use the raycast, it'll shoot a ray
-        downwards(we set it to go down) a certain distance(groundCheckDistance). When it shoots, it'll look specifically for the ground,
-        using the "ground" layer(I don't remember why we use layer over tag tho). If the ray hits the ground within the distance, player is 
-        grounded. If false, player is in the air.
-
-        The rays will shoot down from the player sprite. I also have groundCheckOffset, which will be added and substracted from the 
-        center point of the player sprite. I'm doing this so the player hand be hanging off the edge of a platform and still jump,
-        allowing for more precise jumping.
-
-        The rest of the process is kinda simple: 
-            if player is grounded, apply an upward force to the player to jump
-            if not grounded, but double jump has not been used(false), apply another upward force and mark double jump as used(true).
-            if not grounded and double jump has been used, dont jump
-        */
-
+       
         grounded = GroundCheck();
-        onWallLeft = WallCheckLeft();
-        onWallRight = WallCheckRight();
-        wallSliding = WallSlideCheck();
+        onWall = onWallCheck();
+        wallSliding = WallSlide();
+
 
         //reset double jump when on the ground
         if(grounded && !Input.GetKey(KeyCode.Space))
@@ -150,38 +112,11 @@ public class PlayerController : MonoBehaviour
                 //for doubleJumpUsed, set it to it's opposite. on first jump it'll switch to true, allowing the double jump
                 //on the second jump, it'll switch to false to lock it out again
                 //it'll stay false until the player hits the ground and it resets
+                dashUsed = false;
             }
                 
         }
-        /*
-        //Debug.Log(onWallLeft);
-        if(grounded)
-        {
-            doubleJumpUsed = false;
-            dashUsed = false; //player can only dash while in the air, so dash will also reset when player is on the ground
-            jumping = true;
-        }
-
-        else if (!doubleJumpUsed)
-        {
-            doubleJumpUsed = true;
-            jumping = true;
-        }
-            /*
-            if(onWallLeft && !grounded)
-            {
-                wallJumpLeft = true;
-                wallJumpRight = false;
-            }
-            else if (onWallRight && !grounded)
-            {
-                wallJumpLeft = false;
-                wallJumpRight = true;
-            }
-            */
-
-        
-
+       
         /*
          CHECKING MOVEMENT DIRECTION 
          if xVel is positive(less than 0), player is moving right
@@ -201,25 +136,9 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
         
-        /*
-        DASHING
-        kinda similar to jumping: 
-        -bool in update(). 
-        -on button press, bool true
-        -on bool true: do physics movement in fixedupdate(), set bool to false
-        dun
         
-        dash will be set to W for now
 
-        okay there's a lot of bools so I'll go thru that to for clarity:
-        -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
-        -dashing is for the dash itself. when true, do the physics thing
-        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps or wall jumps again
-        
-         MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
-         */
-
-        if (dashActive && Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded) 
+        if (Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded) 
         {
             //call the coroutine
             StartCoroutine(Dash());
@@ -238,7 +157,7 @@ public class PlayerController : MonoBehaviour
         else if(rb.velocity.y < 0)
         {
             playerState = PlayerStates.JumpDown;
-            if (onWallLeft || onWallRight)
+            if (onWall)
                 playerState = PlayerStates.WallSlide;
         }
         else
@@ -276,15 +195,17 @@ public class PlayerController : MonoBehaviour
         there wasa bug that allowed the player to stick to the wall in the air by moving into the wall.
         this fixes that by setting the velocity to 0 if the player is on a wall and in the air
         */
-       if (!grounded && canMove)
+        
+       if (!grounded && canMove && onWall)
        {
-           if(onWallLeft && rb.velocity.x < 0)
+           if(rb.velocity.x < 0)
                rb.velocity = new Vector2(0, rb.velocity.y);
 
-           else if(onWallRight && rb.velocity.x > 0)
+           else if(rb.velocity.x > 0)
                 rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
+
         /*
         JUMPING FLOW SCHEME
         jump
@@ -306,10 +227,12 @@ public class PlayerController : MonoBehaviour
             jumping = false;
             //Debug.Log(rb.velocity);
         }
-       
+
 
 
         /////////////////////WALL SLIDE MOVEMENT//////////////////////////////////////
+        //WallSlide();
+        
         if (wallSliding && canMove)
         {
             if (rb.velocity.y < -wallSlideSpeed)
@@ -350,6 +273,10 @@ public class PlayerController : MonoBehaviour
         return right;
     }
 
+    private bool onWallCheck()
+    {
+        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wall);
+    }
     /////////////////////FLIP//////////////////////////////////////
 
     private void flip()
@@ -362,11 +289,15 @@ public class PlayerController : MonoBehaviour
     }
 
     /////////////////////WALL SLIDE//////////////////////////////////////
-    private bool WallSlideCheck()
+    private bool WallSlide()
     {
         //maybe add an extra check for hoirzontal movement, so player can choose to hold and fall slowly or just drop?
-        if ((onWallLeft || onWallRight) && !grounded && rb.velocity.y < 0)
+        if ((onWallCheck()) && !grounded && rb.velocity.y < 0)
+        {
             return true;
+            //rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, wallSlideSpeed, float.MaxValue));
+        }
+
 
         else
             return false;
@@ -393,6 +324,9 @@ public class PlayerController : MonoBehaviour
             wallJumping = true;
             rb.velocity = new Vector2(wallJumpDirection * wallJumpForce.x, wallJumpForce.y);
             wallJumpCounter = 0;
+
+            if (transform.localScale.x != wallJumpDirection)
+                flip();
         }
 
         //INVOKE: like calling a function, except you put it on timer and the function is called when timer hits 0
@@ -427,7 +361,6 @@ public class PlayerController : MonoBehaviour
         set dashing to false
         donezo
         */
-
         dashUsed = true;
         dashing = true;
         float originalGravity = rb.gravityScale;
@@ -509,21 +442,54 @@ public class PlayerController : MonoBehaviour
 }
 
 /*
- if(wallJumpLeft)
-        {
-            rb.velocity = wallJumpForce;
-            //rb.AddForce(wallJumpForce, ForceMode2D.Impulse);
-            wallJumpLeft = false;
-            doubleJumpUsed = false;
-            dashUsed = false;
-        }
+     SIMPLE MOVEMENT
+     Horizontal is an input built into Unity. It starts at 0.(access Horizontal with Input.GetAxisRaw())
+     When the 'a' key is pressed, it's -1
+     When the 'd' key is pressed, it's 1
+     When nothing is pressed, it's 0
+     We can plug a variable set to Horizontal into the movement calculation
+     to automate left/right movement.
 
-        if (wallJumpRight)
-        {
-            rb.velocity = new Vector2(-wallJumpForce.x, wallJumpForce.y);
-            //rb.AddForce(wallJumpForce * new Vector2(-1, 1), ForceMode2D.Impulse);
-            wallJumpRight = false;
-            doubleJumpUsed = false;
-            dashUsed = false;
-            //Debug.Log(wallJumpForce * Vector2.left);
-        }*/
+     Use transfrom.Translate to move the player. It takes in a vector3 (x, y, z) for where the player is being moved.
+     Here, we're only moving on the x axis, so the speed calculation will only be in the x position, and the y and z
+     stay unchanged at 0.
+
+     For the speed calculation, xVel determines left or right movement, speed is the speed, and 
+     Time.deltaTime ensures that movement in time-based and not frame rate based(so that a pc
+     with a lower frame rate can move the same way).
+      */
+
+/*
+        JUMPING(this requires different components in different places, but I'll do the whole explanation here)
+        Here we're using a raycast to check if the player is on the ground. When we use the raycast, it'll shoot a ray
+        downwards(we set it to go down) a certain distance(groundCheckDistance). When it shoots, it'll look specifically for the ground,
+        using the "ground" layer(I don't remember why we use layer over tag tho). If the ray hits the ground within the distance, player is 
+        grounded. If false, player is in the air.
+
+        The rays will shoot down from the player sprite. I also have groundCheckOffset, which will be added and substracted from the 
+        center point of the player sprite. I'm doing this so the player hand be hanging off the edge of a platform and still jump,
+        allowing for more precise jumping.
+
+        The rest of the process is kinda simple: 
+            if player is grounded, apply an upward force to the player to jump
+            if not grounded, but double jump has not been used(false), apply another upward force and mark double jump as used(true).
+            if not grounded and double jump has been used, dont jump
+        */
+
+/*
+        DASHING
+        kinda similar to jumping: 
+        -bool in update(). 
+        -on button press, bool true
+        -on bool true: do physics movement in fixedupdate(), set bool to false
+        dun
+        
+        dash will be set to W for now
+
+        okay there's a lot of bools so I'll go thru that to for clarity:
+        -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
+        -dashing is for the dash itself. when true, do the physics thing
+        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps or wall jumps again
+        
+         MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
+         */
