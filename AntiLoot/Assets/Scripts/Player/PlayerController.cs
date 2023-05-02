@@ -3,54 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown,JumpDown, WallSlide, WallCling};
+public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown, JumpDown, WallSlide, WallCling };
 public class PlayerController : MonoBehaviour
 {
     public PlayerStates playerState = PlayerStates.Idle;
+    public static PlayerController instance;
 
     //variables to be adjusted in Unity editor need to be public
     //anything else can be private, as to not crowd the Unity editor
     //movement
     public float speed;
-    bool movingLeft = false;
-    bool movingRight = false;
     float xVel;
-    
+
     //jumping
     public Rigidbody2D rb;
     public int jumpForce;
     public LayerMask ground;
-    public float groundCheckDistance;
-    public Vector3 groundCheckOffset;
+    private float groundCheckDistance = 0.6f;
+    private Vector3 groundCheckOffset = new Vector3(0.5f, 0, 0);
     private bool grounded;
     private bool jumping = false;
     private bool doubleJumping = false;
 
     //dash
     private bool dashing = false;
-    private bool dashUsed = true;
-    public float dashTime = 0.2f;
-    public bool dashActive = false;
-    public float dashForce = 4;
+    private bool dashUsed = false;
+    private float dashTime = 0.2f;
+    private float dashForce = 4;
     public TrailRenderer trail;
 
     //wall jump
     public LayerMask wall;
-    public float wallCheckDistance;
-    public Vector3 wallCheckOffset;
+    private Vector3 wallCheckOffset;
 
-    public bool onWallLeft;
-    public bool onWallRight;
-    public float wallSlideSpeed;
+    public Transform wallCheck;
+    [SerializeField] private bool onWall;
+    private float wallSlideSpeed = 2f;
     public Vector2 wallJumpForce;
-    //private bool wallJumpLeft = false;
-    //private bool wallJumpRight = false;
     private float wallJumpDirection;
-    public float wallJumpTime;
-    public float wallJumpCounter;
-    public float wallJumpDuration;
-    private bool wallJumping;
-    
+    private float wallJumpTime = 0.2f;
+    private float wallJumpCounter;
+    private float wallJumpDuration = 0.4f;
+    [SerializeField] private bool wallJumping;
+
     private bool wallSliding = false;
 
     public int hitsTillDead = 3;
@@ -61,15 +56,27 @@ public class PlayerController : MonoBehaviour
 
     //win condition
     public bool reachedGoal = false;
-    private bool canMove = true;        //only false when player is ded
-    
+    public bool canMove = true;        //only false when player is ded
+
     //debugging
     //public Vector3 testLineLength;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -87,100 +94,37 @@ public class PlayerController : MonoBehaviour
         */
         if (dashing)
             return;
-        
-        
-        /*
-        SIMPLE MOVEMENT
-        Horizontal is an input built into Unity. It starts at 0.(access Horizontal with Input.GetAxisRaw())
-        When the 'a' key is pressed, it's -1
-        When the 'd' key is pressed, it's 1
-        When nothing is pressed, it's 0
-        We can plug a variable set to Horizontal into the movement calculation
-        to automate left/right movement.
-
-        Use transfrom.Translate to move the player. It takes in a vector3 (x, y, z) for where the player is being moved.
-        Here, we're only moving on the x axis, so the speed calculation will only be in the x position, and the y and z
-        stay unchanged at 0.
-        
-        For the speed calculation, xVel determines left or right movement, speed is the speed, and 
-        Time.deltaTime ensures that movement in time-based and not frame rate based(so that a pc
-        with a lower frame rate can move the same way).
-         */
 
 
         xVel = Input.GetAxisRaw(PlayerInput.HORIZONTAL);
         //transform.Translate(xVel * speed * Time.deltaTime, 0, 0);
 
-        
-
-        /*
-        JUMPING(this requires different components in different places, but I'll do the whole explanation here)
-        Here we're using a raycast to check if the player is on the ground. When we use the raycast, it'll shoot a ray
-        downwards(we set it to go down) a certain distance(groundCheckDistance). When it shoots, it'll look specifically for the ground,
-        using the "ground" layer(I don't remember why we use layer over tag tho). If the ray hits the ground within the distance, player is 
-        grounded. If false, player is in the air.
-
-        The rays will shoot down from the player sprite. I also have groundCheckOffset, which will be added and substracted from the 
-        center point of the player sprite. I'm doing this so the player hand be hanging off the edge of a platform and still jump,
-        allowing for more precise jumping.
-
-        The rest of the process is kinda simple: 
-            if player is grounded, apply an upward force to the player to jump
-            if not grounded, but double jump has not been used(false), apply another upward force and mark double jump as used(true).
-            if not grounded and double jump has been used, dont jump
-        */
 
         grounded = GroundCheck();
-        onWallLeft = WallCheckLeft();
-        onWallRight = WallCheckRight();
-        wallSliding = WallSlideCheck();
+        onWall = onWallCheck();
+        wallSliding = WallSlide();
+
 
         //reset double jump when on the ground
-        if(grounded && !Input.GetKey(KeyCode.Space))
+        if (grounded && !Input.GetKey(KeyCode.Space))
         {
             doubleJumping = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(grounded || doubleJumping)
+            if ((grounded || (doubleJumping && !onWall)))
             {
                 jumping = true;
                 doubleJumping = !doubleJumping;
                 //for doubleJumpUsed, set it to it's opposite. on first jump it'll switch to true, allowing the double jump
                 //on the second jump, it'll switch to false to lock it out again
                 //it'll stay false until the player hits the ground and it resets
+                dashUsed = false;
+                Debug.Log("jump");
             }
-                
-        }
-        /*
-        //Debug.Log(onWallLeft);
-        if(grounded)
-        {
-            doubleJumpUsed = false;
-            dashUsed = false; //player can only dash while in the air, so dash will also reset when player is on the ground
-            jumping = true;
-        }
 
-        else if (!doubleJumpUsed)
-        {
-            doubleJumpUsed = true;
-            jumping = true;
         }
-            /*
-            if(onWallLeft && !grounded)
-            {
-                wallJumpLeft = true;
-                wallJumpRight = false;
-            }
-            else if (onWallRight && !grounded)
-            {
-                wallJumpLeft = false;
-                wallJumpRight = true;
-            }
-            */
-
-        
 
         /*
          CHECKING MOVEMENT DIRECTION 
@@ -191,8 +135,8 @@ public class PlayerController : MonoBehaviour
          we dont want to flip the sprite while the player is wall jumping, so check only happens
          if the player is not wall jumping
         */
-       
-        if(xVel < 0)//moving left
+
+        if (xVel < 0)//moving left
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
@@ -200,26 +144,10 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        
-        /*
-        DASHING
-        kinda similar to jumping: 
-        -bool in update(). 
-        -on button press, bool true
-        -on bool true: do physics movement in fixedupdate(), set bool to false
-        dun
-        
-        dash will be set to W for now
 
-        okay there's a lot of bools so I'll go thru that to for clarity:
-        -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
-        -dashing is for the dash itself. when true, do the physics thing
-        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps or wall jumps again
-        
-         MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
-         */
 
-        if (dashActive && Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded) 
+
+        if (Input.GetKeyDown(KeyCode.W) && !dashUsed && !grounded)
         {
             //call the coroutine
             StartCoroutine(Dash());
@@ -235,22 +163,27 @@ public class PlayerController : MonoBehaviour
         {
             playerState = PlayerStates.JumpUp;
         }
-        else if(rb.velocity.y < 0)
+        else if (rb.velocity.y < 0)
         {
             playerState = PlayerStates.JumpDown;
-            if (onWallLeft || onWallRight)
+            if (onWall)
                 playerState = PlayerStates.WallSlide;
         }
         else
             playerState = PlayerStates.Idle;
 
         HitCooldown();
+        /////////////////////WALL JUMP CALL//////////////////////////////////////
+        WallJump();
+
+        if(!grounded)
+            Debug.Log(rb.velocity);
     }
 
-    
+
 
     private void FixedUpdate()
-    { 
+    {
         /*
         FOR THE DASH:
         we dont want any other movements to interrupt the dash while it's happening, 
@@ -270,21 +203,24 @@ public class PlayerController : MonoBehaviour
 
         if (!wallJumping && canMove)
             rb.velocity = new Vector2(xVel * speed, rb.velocity.y);
-        
+
 
         /*
         there wasa bug that allowed the player to stick to the wall in the air by moving into the wall.
         this fixes that by setting the velocity to 0 if the player is on a wall and in the air
+        LESSON LEARNED: KEEP TABS ON *ALL* CODE/FUNCTIONS AND HOW THEY MAY INTERACT WITH EACH OTHER
         */
-       if (!grounded && canMove)
-       {
-           if(onWallLeft && rb.velocity.x < 0)
-               rb.velocity = new Vector2(0, rb.velocity.y);
 
-           else if(onWallRight && rb.velocity.x > 0)
+        if (!grounded && canMove && onWall && !wallJumping)
+        {
+            if (rb.velocity.x < 0)
+                rb.velocity = new Vector2(0, rb.velocity.y);
+
+            else if (rb.velocity.x > 0)
                 rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
+
         /*
         JUMPING FLOW SCHEME
         jump
@@ -294,29 +230,31 @@ public class PlayerController : MonoBehaviour
         -after wall jump, can double jump or dash
         -essentially, wall jumping refreshes double jump and dash
         */
-        /////////////////////WALL JUMP CALL//////////////////////////////////////
-        WallJump();
+        
 
 
         /////////////////////JUMPING//////////////////////////////////////
         if (jumping && canMove)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce); 
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             //rb.AddForce(new Vector2(rb.velocity.x, jumpForce), ForceMode2D.Impulse);
             jumping = false;
             //Debug.Log(rb.velocity);
         }
-       
+
 
 
         /////////////////////WALL SLIDE MOVEMENT//////////////////////////////////////
+        //WallSlide();
+
         if (wallSliding && canMove)
         {
             if (rb.velocity.y < -wallSlideSpeed)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            //Debug.Log("sliiiiide");
         }
 
-        
+
     }
     /////////////////////GROUND/WALL CHECK//////////////////////////////////////
     private bool GroundCheck()
@@ -329,44 +267,32 @@ public class PlayerController : MonoBehaviour
         return check;
     }
 
-    private bool WallCheckLeft()
+
+    private bool onWallCheck()
     {
-        //params for raycast: start pos, direction, distance, target(wall layer)
-        bool left = (
-            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.left, wallCheckDistance, wall) ||
-            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.left, wallCheckDistance, wall));
-
-        return left;
+        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wall);
     }
-
-
-    private bool WallCheckRight()
-    {
-        //params for raycast: start pos, direction, distance, target(wall layer)
-        bool right = (
-            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.right, wallCheckDistance, wall) ||
-            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.right, wallCheckDistance, wall));
-
-        return right;
-    }
-
     /////////////////////FLIP//////////////////////////////////////
 
     private void flip()
     {
-        if (transform.localScale == new Vector3(1, 1, 1)) 
+        if (transform.localScale == new Vector3(1, 1, 1))
             transform.localScale = new Vector3(-1, 1, 1);
 
-        else 
+        else
             transform.localScale = new Vector3(1, 1, 1);
     }
 
     /////////////////////WALL SLIDE//////////////////////////////////////
-    private bool WallSlideCheck()
+    private bool WallSlide()
     {
         //maybe add an extra check for hoirzontal movement, so player can choose to hold and fall slowly or just drop?
-        if ((onWallLeft || onWallRight) && !grounded && rb.velocity.y < 0)
+        if ((onWallCheck()) && !grounded && rb.velocity.y != 0 && !wallJumping)
+        {
             return true;
+            //rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, wallSlideSpeed, float.MaxValue));
+        }
+
 
         else
             return false;
@@ -375,7 +301,9 @@ public class PlayerController : MonoBehaviour
     /////////////////////WALL JUMP//////////////////////////////////////
     private void WallJump()
     {
-        if(wallSliding && !grounded)
+        //while sliding, set the wall jump direciton, and reset the counter
+        //(the counter is used to give the player a brief opportunity to wall jump just after leaving the wall
+        if (wallSliding && !grounded)
         {
             wallJumping = false;
             wallJumpDirection = -transform.localScale.x;
@@ -388,11 +316,25 @@ public class PlayerController : MonoBehaviour
             wallJumpCounter -= Time.deltaTime;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && wallJumpCounter > 0)
+        /*
+        when the player can wall jump:
+        set wallJumping to true to stop other movements from interrupting the jump
+        apply wallJumpForce
+        disable counter
+        flip sprite
+        reset Dash
+        */
+        if (Input.GetKeyDown(KeyCode.Space) && wallJumpCounter > 0)
         {
             wallJumping = true;
             rb.velocity = new Vector2(wallJumpDirection * wallJumpForce.x, wallJumpForce.y);
             wallJumpCounter = 0;
+
+            if (transform.localScale.x != wallJumpDirection)
+                flip();
+
+            dashUsed = false;
+            
         }
 
         //INVOKE: like calling a function, except you put it on timer and the function is called when timer hits 0
@@ -427,13 +369,12 @@ public class PlayerController : MonoBehaviour
         set dashing to false
         donezo
         */
-
         dashUsed = true;
         dashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
 
-        
+
         if (xVel < 0)//moving left
             rb.velocity = Vector2.left * dashForce;
 
@@ -453,18 +394,18 @@ public class PlayerController : MonoBehaviour
         //call this function when the player takes a hit
         //decrement from the hit counter, if counter at 0, death screen(to be implemented later, restart game for now)
         //after hit, trigger a short cooldown period. if player is hit during cooldown, hit doesnt count
-        
+
         //if the cooldown timer isnt counting down: take the hit, set the timer, check if the player is dead and reset if so, and set cooldown timer 
         if (hitCooldown == 0)
-        { 
+        {
             hitsTillDead--;
-            if(hitsTillDead == 0)
+            if (hitsTillDead == 0)
                 canMove = false;
             else
                 hitCooldown = hitCooldownReset;
         }
-        
-        
+
+
     }
     /// <summary>
     /// counts down the cooldown timer. called in Update so cooldown can count with out any dependancies
@@ -474,33 +415,33 @@ public class PlayerController : MonoBehaviour
         if (hitCooldown > 0)
         {
             hitCooldown--;
-            if(hitsTillDead > 0)
+            if (hitsTillDead > 0)
             {
                 hitCooldownIndicator.SetActive(true);
                 if (hitsTillDead == 1)
                     lastLifeText.SetActive(true);
             }
-            
+
         }
         else
         {
             hitCooldownIndicator.SetActive(false);
             lastLifeText.SetActive(false);
         }
-            
+
 
     }
- 
+
     /////////////////////ON COLLISION//////////////////////////////////////
-   
+
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.tag == "trap" )
+        if (col.gameObject.tag == "trap")
         {
             Hit();
         }
 
-        if(col.gameObject.tag == "goal")
+        if (col.gameObject.tag == "goal")
         {
             reachedGoal = true;
             canMove = false;
@@ -509,21 +450,54 @@ public class PlayerController : MonoBehaviour
 }
 
 /*
- if(wallJumpLeft)
-        {
-            rb.velocity = wallJumpForce;
-            //rb.AddForce(wallJumpForce, ForceMode2D.Impulse);
-            wallJumpLeft = false;
-            doubleJumpUsed = false;
-            dashUsed = false;
-        }
+     SIMPLE MOVEMENT
+     Horizontal is an input built into Unity. It starts at 0.(access Horizontal with Input.GetAxisRaw())
+     When the 'a' key is pressed, it's -1
+     When the 'd' key is pressed, it's 1
+     When nothing is pressed, it's 0
+     We can plug a variable set to Horizontal into the movement calculation
+     to automate left/right movement.
 
-        if (wallJumpRight)
-        {
-            rb.velocity = new Vector2(-wallJumpForce.x, wallJumpForce.y);
-            //rb.AddForce(wallJumpForce * new Vector2(-1, 1), ForceMode2D.Impulse);
-            wallJumpRight = false;
-            doubleJumpUsed = false;
-            dashUsed = false;
-            //Debug.Log(wallJumpForce * Vector2.left);
-        }*/
+     Use transfrom.Translate to move the player. It takes in a vector3 (x, y, z) for where the player is being moved.
+     Here, we're only moving on the x axis, so the speed calculation will only be in the x position, and the y and z
+     stay unchanged at 0.
+
+     For the speed calculation, xVel determines left or right movement, speed is the speed, and 
+     Time.deltaTime ensures that movement in time-based and not frame rate based(so that a pc
+     with a lower frame rate can move the same way).
+      */
+
+/*
+        JUMPING(this requires different components in different places, but I'll do the whole explanation here)
+        Here we're using a raycast to check if the player is on the ground. When we use the raycast, it'll shoot a ray
+        downwards(we set it to go down) a certain distance(groundCheckDistance). When it shoots, it'll look specifically for the ground,
+        using the "ground" layer(I don't remember why we use layer over tag tho). If the ray hits the ground within the distance, player is 
+        grounded. If false, player is in the air.
+
+        The rays will shoot down from the player sprite. I also have groundCheckOffset, which will be added and substracted from the 
+        center point of the player sprite. I'm doing this so the player hand be hanging off the edge of a platform and still jump,
+        allowing for more precise jumping.
+
+        The rest of the process is kinda simple: 
+            if player is grounded, apply an upward force to the player to jump
+            if not grounded, but double jump has not been used(false), apply another upward force and mark double jump as used(true).
+            if not grounded and double jump has been used, dont jump
+        */
+
+/*
+        DASHING
+        kinda similar to jumping: 
+        -bool in update(). 
+        -on button press, bool true
+        -on bool true: do physics movement in fixedupdate(), set bool to false
+        dun
+        
+        dash will be set to W for now
+
+        okay there's a lot of bools so I'll go thru that to for clarity:
+        -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
+        -dashing is for the dash itself. when true, do the physics thing
+        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps or wall jumps again
+        
+         MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
+         */

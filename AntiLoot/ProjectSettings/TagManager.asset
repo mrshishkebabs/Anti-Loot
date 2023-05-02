@@ -6,7 +6,7 @@ TagManager:
   tags:
   - trap
   - Wall
-
+  - goal
   layers:
   - Default
   - TransparentFX
