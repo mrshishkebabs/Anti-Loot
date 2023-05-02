@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
 
     //wall jump
     public LayerMask wall;
-    private float wallCheckDistance = 0.3f;
     private Vector3 wallCheckOffset;
 
     public Transform wallCheck;
@@ -196,6 +195,7 @@ public class PlayerController : MonoBehaviour
         /*
         there wasa bug that allowed the player to stick to the wall in the air by moving into the wall.
         this fixes that by setting the velocity to 0 if the player is on a wall and in the air
+        LESSON LEARNED: KEEP TABS ON *ALL* CODE/FUNCTIONS AND HOW THEY MAY INTERACT WITH EACH OTHER
         */
 
         if (!grounded && canMove && onWall && !wallJumping)
@@ -254,26 +254,6 @@ public class PlayerController : MonoBehaviour
         return check;
     }
 
-    private bool WallCheckLeft()
-    {
-        //params for raycast: start pos, direction, distance, target(wall layer)
-        bool left = (
-            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.left, wallCheckDistance, wall) ||
-            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.left, wallCheckDistance, wall));
-
-        return left;
-    }
-
-
-    private bool WallCheckRight()
-    {
-        //params for raycast: start pos, direction, distance, target(wall layer)
-        bool right = (
-            Physics2D.Raycast(transform.position + wallCheckOffset, Vector2.right, wallCheckDistance, wall) ||
-            Physics2D.Raycast(transform.position - wallCheckOffset, Vector2.right, wallCheckDistance, wall));
-
-        return right;
-    }
 
     private bool onWallCheck()
     {
@@ -308,6 +288,8 @@ public class PlayerController : MonoBehaviour
     /////////////////////WALL JUMP//////////////////////////////////////
     private void WallJump()
     {
+        //while sliding, set the wall jump direciton, and reset the counter
+        //(the counter is used to give the player a brief opportunity to wall jump just after leaving the wall
         if (wallSliding && !grounded)
         {
             wallJumping = false;
@@ -321,6 +303,14 @@ public class PlayerController : MonoBehaviour
             wallJumpCounter -= Time.deltaTime;
         }
 
+        /*
+        when the player can wall jump:
+        set wallJumping to true to stop other movements from interrupting the jump
+        apply wallJumpForce
+        disable counter
+        flip sprite
+        reset Dash
+        */
         if (Input.GetKeyDown(KeyCode.Space) && wallJumpCounter > 0)
         {
             wallJumping = true;
