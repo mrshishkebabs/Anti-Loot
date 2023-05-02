@@ -7,6 +7,7 @@ public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown, JumpDown, WallSlide, W
 public class PlayerController : MonoBehaviour
 {
     public PlayerStates playerState = PlayerStates.Idle;
+    public static PlayerController instance;
 
     //variables to be adjusted in Unity editor need to be public
     //anything else can be private, as to not crowd the Unity editor
@@ -59,6 +60,18 @@ public class PlayerController : MonoBehaviour
 
     //debugging
     //public Vector3 testLineLength;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
