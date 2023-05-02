@@ -12,16 +12,14 @@ public class PlayerController : MonoBehaviour
     //anything else can be private, as to not crowd the Unity editor
     //movement
     public float speed;
-    bool movingLeft = false;
-    bool movingRight = false;
     float xVel;
 
     //jumping
     public Rigidbody2D rb;
     public int jumpForce;
     public LayerMask ground;
-    public float groundCheckDistance;
-    public Vector3 groundCheckOffset;
+    private float groundCheckDistance = 0.6f;
+    private Vector3 groundCheckOffset = new Vector3(0.5f, 0, 0);
     private bool grounded;
     private bool jumping = false;
     private bool doubleJumping = false;
@@ -29,26 +27,24 @@ public class PlayerController : MonoBehaviour
     //dash
     private bool dashing = false;
     private bool dashUsed = false;
-    public float dashTime = 0.2f;
-    public float dashForce = 4;
+    private float dashTime = 0.2f;
+    private float dashForce = 4;
     public TrailRenderer trail;
 
     //wall jump
     public LayerMask wall;
-    public float wallCheckDistance;
+    private float wallCheckDistance = 0.3f;
     private Vector3 wallCheckOffset;
 
     public Transform wallCheck;
     [SerializeField] private bool onWall;
-    public float wallSlideSpeed;
+    private float wallSlideSpeed = 2f;
     public Vector2 wallJumpForce;
-    //private bool wallJumpLeft = false;
-    //private bool wallJumpRight = false;
     private float wallJumpDirection;
-    public float wallJumpTime;
-    public float wallJumpCounter;
-    public float wallJumpDuration;
-    private bool wallJumping;
+    private float wallJumpTime = 0.2f;
+    private float wallJumpCounter;
+    private float wallJumpDuration = 0.4f;
+    [SerializeField] private bool wallJumping;
 
     private bool wallSliding = false;
 
@@ -60,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     //win condition
     public bool reachedGoal = false;
-    private bool canMove = true;        //only false when player is ded
+    public bool canMove = true;        //only false when player is ded
 
     //debugging
     //public Vector3 testLineLength;
@@ -105,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (grounded || doubleJumping)
+            if ((grounded || (doubleJumping && !onWall)))
             {
                 jumping = true;
                 doubleJumping = !doubleJumping;
@@ -113,6 +109,7 @@ public class PlayerController : MonoBehaviour
                 //on the second jump, it'll switch to false to lock it out again
                 //it'll stay false until the player hits the ground and it resets
                 dashUsed = false;
+                Debug.Log("jump");
             }
 
         }
@@ -164,6 +161,11 @@ public class PlayerController : MonoBehaviour
             playerState = PlayerStates.Idle;
 
         HitCooldown();
+        /////////////////////WALL JUMP CALL//////////////////////////////////////
+        WallJump();
+
+        if(!grounded)
+            Debug.Log(rb.velocity);
     }
 
 
@@ -196,7 +198,7 @@ public class PlayerController : MonoBehaviour
         this fixes that by setting the velocity to 0 if the player is on a wall and in the air
         */
 
-        if (!grounded && canMove && onWall)
+        if (!grounded && canMove && onWall && !wallJumping)
         {
             if (rb.velocity.x < 0)
                 rb.velocity = new Vector2(0, rb.velocity.y);
@@ -215,8 +217,7 @@ public class PlayerController : MonoBehaviour
         -after wall jump, can double jump or dash
         -essentially, wall jumping refreshes double jump and dash
         */
-        /////////////////////WALL JUMP CALL//////////////////////////////////////
-        WallJump();
+        
 
 
         /////////////////////JUMPING//////////////////////////////////////
@@ -237,6 +238,7 @@ public class PlayerController : MonoBehaviour
         {
             if (rb.velocity.y < -wallSlideSpeed)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            //Debug.Log("sliiiiide");
         }
 
 
@@ -292,7 +294,7 @@ public class PlayerController : MonoBehaviour
     private bool WallSlide()
     {
         //maybe add an extra check for hoirzontal movement, so player can choose to hold and fall slowly or just drop?
-        if ((onWallCheck()) && !grounded && rb.velocity.y < 0)
+        if ((onWallCheck()) && !grounded && rb.velocity.y != 0 && !wallJumping)
         {
             return true;
             //rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, wallSlideSpeed, float.MaxValue));
@@ -327,6 +329,9 @@ public class PlayerController : MonoBehaviour
 
             if (transform.localScale.x != wallJumpDirection)
                 flip();
+
+            dashUsed = false;
+            
         }
 
         //INVOKE: like calling a function, except you put it on timer and the function is called when timer hits 0
