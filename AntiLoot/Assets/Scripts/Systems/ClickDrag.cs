@@ -5,9 +5,9 @@ using UnityEngine;
 public class ClickDrag : MonoBehaviour
 {
     public GameObject trap;    
-    public Vector3 origPos;
     public int counter = 3;
 
+    Vector3 origPos;
     Vector3 difference = Vector2.zero;
     bool inValid = false;
 
@@ -18,14 +18,28 @@ public class ClickDrag : MonoBehaviour
         //mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //to make sure the clones have the trap tag
         this.tag = "trap";
+
+        origPos = transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player") inValid = true;
+        if (collision.gameObject.tag == "Ground" || 
+            collision.gameObject.tag == "Player" ||
+            collision.gameObject.tag == "trap") 
+            {
+                inValid = true;
+                Debug.Log("invalid");
+            }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-        if(collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player") inValid = false;
+        if (collision.gameObject.tag == "Ground" ||
+            collision.gameObject.tag == "Player" ||
+            collision.gameObject.tag == "trap") 
+            {
+                inValid = false;
+                Debug.Log("valid");
+            }
     }
     private void OnMouseDown()
     {
@@ -60,9 +74,11 @@ public class ClickDrag : MonoBehaviour
         if (inValid) {
             Destroy(gameObject);
         }
-        if (gameObject.GetComponent<Collider2D>().isTrigger && gameObject != null) {
+        else if (gameObject.GetComponent<Collider2D>().isTrigger && gameObject != null) {
+            Vector3 tilePos = Tiles.currentTile.transform.position;
+            transform.position = new Vector3(tilePos.x, tilePos.y, transform.position.z);
+
             gameObject.GetComponent<Collider2D>().isTrigger = false;
-            transform.position = Tiles.currentTile.transform.position;
             counter--;
         }
     }
