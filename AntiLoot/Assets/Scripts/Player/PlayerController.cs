@@ -73,6 +73,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        EventBroker.OnEscapePhaseStart += EscapePhase;
+    }
+
+    private void OnDisable()
+    {
+        EventBroker.OnEscapePhaseStart -= EscapePhase;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -400,7 +410,10 @@ public class PlayerController : MonoBehaviour
         {
             hitsTillDead--;
             if (hitsTillDead == 0)
+            {
                 canMove = false;
+                GameManager.instance.UpdateGameState(GameState.TrapPhase);
+            }
             else
                 hitCooldown = hitCooldownReset;
         }
@@ -432,6 +445,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void EscapePhase()
+    {
+        hitsTillDead = 3;
+        canMove = true;
+        reachedGoal = false;
+    }
+
     /////////////////////ON COLLISION//////////////////////////////////////
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -445,6 +465,7 @@ public class PlayerController : MonoBehaviour
         {
             reachedGoal = true;
             canMove = false;
+            GameManager.instance.UpdateGameState(GameState.TrapPhase);
         }
     }
 }

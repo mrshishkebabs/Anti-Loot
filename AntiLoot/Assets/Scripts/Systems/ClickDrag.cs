@@ -6,7 +6,7 @@ public class ClickDrag : MonoBehaviour
 {
     public GameObject trap;    
     public int counter = 3;
-
+    [SerializeField] private GameObject activeTraps, unusedTraps;
     Vector3 origPos;
     Vector3 difference = Vector2.zero;
     bool inValid = false;
@@ -17,7 +17,7 @@ public class ClickDrag : MonoBehaviour
     {
         //mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //to make sure the clones have the trap tag
-        this.tag = "trap";
+        //this.tag = "trap";
 
         origPos = transform.position;
     }
@@ -56,7 +56,7 @@ public class ClickDrag : MonoBehaviour
         */
         if (gameObject.GetComponent<Collider2D>().isTrigger) 
         {
-            Instantiate(trap, origPos, Quaternion.identity);
+            Instantiate(trap, origPos, Quaternion.identity, unusedTraps.transform);
             difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         }
     }
@@ -79,6 +79,7 @@ public class ClickDrag : MonoBehaviour
         else if (gameObject.GetComponent<Collider2D>().isTrigger && gameObject != null) {
             Vector3 tilePos = Tiles.currentTile.transform.position;
             transform.position = new Vector3(tilePos.x, tilePos.y, transform.position.z);
+            transform.parent = activeTraps.transform;
 
             gameObject.GetComponent<Collider2D>().isTrigger = false;
             counter--;

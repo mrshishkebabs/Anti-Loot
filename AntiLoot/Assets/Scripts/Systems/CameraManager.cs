@@ -29,22 +29,23 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.state == GameState.TrapPhase)
+        /*if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.state == GameState.TrapPhase)
         {
             cam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
             cam.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 8;
-        }
+        }*/
     }
 
     void TrapPhaseCamera()
     {
         cam.Follow = GridManager.instance.transform;
+        cam.m_Lens.OrthographicSize = 10;
     }
 
     void EscapePhaseCamera()
     {
         player = GameManager.instance.player;
         cam.Follow = player.transform;
-        cam.m_Lens.OrthographicSize = 8;
+        cam.m_Lens.OrthographicSize = 6;
     }
 }
