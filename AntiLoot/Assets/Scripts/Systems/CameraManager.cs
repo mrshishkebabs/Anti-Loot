@@ -5,7 +5,20 @@ using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
-    public GameObject player;
+    [SerializeField] private CinemachineVirtualCamera cam;
+    [SerializeField] private GameObject player;
+
+    private void OnEnable()
+    {
+        EventBroker.OnTrapPhaseStart += TrapPhaseCamera;
+        EventBroker.OnEscapePhaseStart += EscapePhaseCamera;
+    }
+
+    private void OnDisable()
+    {
+        EventBroker.OnTrapPhaseStart -= TrapPhaseCamera;
+        EventBroker.OnEscapePhaseStart -= EscapePhaseCamera;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +29,21 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.state == GameState.TrapPhase)
         {
-            GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
-            GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 8;
+            cam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+            cam.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 8;
         }
+    }
+
+    void TrapPhaseCamera()
+    {
+        cam.Follow = GridManager.instance.transform;
+    }
+
+    void EscapePhaseCamera()
+    {
+        player = GameManager.instance.player;
+        cam.Follow = player.transform;
     }
 }

@@ -8,16 +8,19 @@ public enum GameState
     PreGamePhase,
     TrapPhase,
     EscapePhase,
-    EndScreenPhase
+    EndScreenPhase,
+    DebugPhase
 }
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager instance;   
+    public GameObject player;
     public GameState state;
 
-    [SerializeField] GameObject player;
-    [SerializeField] Transform startPoint;
+    [SerializeField] private Transform startPoint;
+
+ 
 
     private void Awake()
     {
@@ -34,7 +37,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.PreGamePhase);
-        player.transform.position = startPoint.position;
+        player = PlayerManager.instance.player;
     }
 
     public void UpdateGameState(GameState newState)
@@ -55,11 +58,12 @@ public class GameManager : MonoBehaviour
             case GameState.EndScreenPhase:
                 HandleEndPhase();
                 break;
+            case GameState.DebugPhase:
+                break;
             default:
                 break;
         }
 
-        EventBroker.CallGameStateChange(newState);
     }
     private void HandlePreGamePhase()
     {
@@ -70,12 +74,14 @@ public class GameManager : MonoBehaviour
 
     private void HandleTrapPhase()
     {
-        
+        EventBroker.CallTrapPhaseStart();
     }
 
     private void HandleEscapePhase()
     {
-        throw new NotImplementedException();
+        player.transform.position = startPoint.position;
+        player.SetActive(true);
+
     }
 
     private void HandleEndPhase()

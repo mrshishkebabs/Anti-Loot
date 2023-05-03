@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93242b675a645c941bfbee2a981247fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseColor: {r: 0.6981132, g: 0.32534707, b: 0.42232677, a: 1}
-  offsetColor: {r: 0.6415094, g: 0.30501956, b: 0.39264724, a: 1}
+  baseColor: {r: 0.6981132, g: 0.32534707, b: 0.42232677, a: 0.5882353}
+  offsetColor: {r: 0.6415094, g: 0.30501956, b: 0.39264724, a: 0.5882353}
   spriteRen: {fileID: 2370318733247779497}
   highlight: {fileID: 8498857382971002288}
 --- !u!61 &6662837089326170886
@@ -223,9 +223,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.31764707}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.29411766}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
