@@ -62,6 +62,7 @@ public class ClickDrag : MonoBehaviour
         }
         if (gameObject.GetComponent<Collider2D>().isTrigger && gameObject != null) {
             gameObject.GetComponent<Collider2D>().isTrigger = false;
+            transform.position = Tiles.currentTile.transform.position;
             counter--;
         }
     }
