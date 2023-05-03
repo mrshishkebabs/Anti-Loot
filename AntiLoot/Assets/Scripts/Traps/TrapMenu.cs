@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class TrapMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void StartEscapePhase()
     {
-        
+        GameManager.instance.UpdateGameState(GameState.EscapePhase);
     }
 }

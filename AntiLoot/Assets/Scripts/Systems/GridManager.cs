@@ -6,6 +6,7 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private int width, height;
     [SerializeField] private Tiles tilePrefab;
+    [SerializeField] private GameObject tilesParent;
 
     [SerializeField] private float xMinBound, xMaxBound;
     [SerializeField] private float yMinBound, yMaxBound;
@@ -77,7 +78,7 @@ public class GridManager : MonoBehaviour
         {
             for(int y = 0; y < height; y++)
             {
-                var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity);
+                var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity,tilesParent.transform);
                 spawnedTile.name = $"tile {x} {y}";
 
                 var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);

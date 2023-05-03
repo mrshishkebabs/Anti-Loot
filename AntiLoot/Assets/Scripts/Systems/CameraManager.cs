@@ -45,5 +45,6 @@ public class CameraManager : MonoBehaviour
     {
         player = GameManager.instance.player;
         cam.Follow = player.transform;
+        cam.m_Lens.OrthographicSize = 8;
     }
 }

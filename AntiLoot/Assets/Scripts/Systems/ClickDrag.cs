@@ -25,7 +25,8 @@ public class ClickDrag : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.tag == "Ground" || 
             collision.gameObject.tag == "Player" ||
-            collision.gameObject.tag == "trap") 
+            collision.gameObject.tag == "trap"   ||
+            collision.gameObject.tag == "Wall") 
             {
                 inValid = true;
                 Debug.Log("invalid");
@@ -35,7 +36,8 @@ public class ClickDrag : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.tag == "Ground" ||
             collision.gameObject.tag == "Player" ||
-            collision.gameObject.tag == "trap") 
+            collision.gameObject.tag == "trap"   ||
+            collision.gameObject.tag == "Wall")
             {
                 inValid = false;
                 Debug.Log("valid");
@@ -80,6 +82,10 @@ public class ClickDrag : MonoBehaviour
 
             gameObject.GetComponent<Collider2D>().isTrigger = false;
             counter--;
+            if(gameObject.GetComponent<Animator>() != null)
+            {
+                GetComponent<Animator>().enabled = true;
+            }
         }
     }
 

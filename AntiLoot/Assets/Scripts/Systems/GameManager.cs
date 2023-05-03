@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = startPoint.position;
         player.SetActive(true);
-
+        EventBroker.CallEscapePhaseStart();
     }
 
     private void HandleEndPhase()
