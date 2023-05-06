@@ -3009,7 +3009,7 @@ GameObject:
   - component: {fileID: 646825951}
   - component: {fileID: 646825950}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: In-Game Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3030,6 +3030,7 @@ RectTransform:
   - {fileID: 1150248946}
   - {fileID: 173867575}
   - {fileID: 2041502629}
+  - {fileID: 1687605611}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5084,7 +5085,7 @@ GameObject:
   - component: {fileID: 1051039220}
   - component: {fileID: 1051039219}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Pre-Game Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
