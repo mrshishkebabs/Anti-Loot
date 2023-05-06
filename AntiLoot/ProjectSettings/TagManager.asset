@@ -7,7 +7,7 @@ TagManager:
   - trap
   - Wall
   - goal
-  - shield
+  - Ground
   layers:
   - Default
   - TransparentFX

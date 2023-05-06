@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1228591960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1228591961}
+  m_Layer: 0
+  m_Name: Wall Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1228591961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228591960}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.214, y: 0.314, z: 0}
+  m_LocalScale: {x: 1.2625, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8014324490548318083}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8014324490343856189
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8014324490548318083
 Transform:
   m_ObjectHideFlags: 0
@@ -113,13 +144,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8014324490548318080}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.176527, y: -4.2568655, z: -8.17086}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8014324490343856190}
   - {fileID: 8014324490638441865}
+  - {fileID: 1228591961}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -142,28 +174,19 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 8
-  groundCheckDistance: 0.6
-  groundCheckOffset: {x: 0.5, y: 0, z: 0}
-  dashTime: 0.2
-  dashActive: 1
-  dashForce: 8
   trail: {fileID: 8014324490548318088}
   wall:
     serializedVersion: 2
     m_Bits: 64
-  wallCheckDistance: 0.3
-  wallCheckOffset: {x: 0, y: 0.5, z: 0}
-  onWallLeft: 0
-  onWallRight: 0
-  wallSlideSpeed: 2
+  wallCheck: {fileID: 1228591961}
+  onWall: 0
   wallJumpForce: {x: 8, y: 16}
-  wallJumpTime: 0.2
-  wallJumpCounter: 0
-  wallJumpDuration: 0.4
+  wallJumping: 0
   hitsTillDead: 3
   hitCooldownIndicator: {fileID: 8014324490638441871}
-  lastLifeText: {fileID: 0}
+  lastLifeText: {fileID: 7030443608756977568, guid: 8cb7a0c09d09e8644a6f5105ef344db7, type: 3}
   reachedGoal: 0
+  canMove: 1
 --- !u!50 &8014324490548318092
 Rigidbody2D:
   serializedVersion: 4

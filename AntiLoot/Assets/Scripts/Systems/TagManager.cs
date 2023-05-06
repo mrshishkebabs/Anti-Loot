@@ -1,6 +1,8 @@
 public class Tags
 {
     public const string PLAYER = "Player";
+    public const string TRAP = "trap";
+    public const string UNTAGGED = "Untagged";
 }
 public class PlayerInput
 {

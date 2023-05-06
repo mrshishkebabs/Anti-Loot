@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        Debug.Log("PlaceHolder");
+        GameManager.instance.UpdateGameState(GameState.TrapPhase);
     }
 
     public void QuitGame()
