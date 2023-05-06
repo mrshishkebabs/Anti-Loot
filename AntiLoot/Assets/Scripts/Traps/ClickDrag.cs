@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ClickDrag : MonoBehaviour
 {
-    public GameObject trap;    
+    // public GameObject trap;    
     public int counter = 3;
-    [SerializeField] private GameObject activeTraps, unusedTraps;
+
     Vector3 origPos;
     Vector3 difference = Vector2.zero;
     bool inValid = false;
@@ -17,9 +17,10 @@ public class ClickDrag : MonoBehaviour
     {
         //mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //to make sure the clones have the trap tag
-        //this.tag = "trap";
+        this.tag = "trap";
 
         origPos = transform.position;
+        difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -43,8 +44,10 @@ public class ClickDrag : MonoBehaviour
                 Debug.Log("valid");
             }
     }
-    private void OnMouseDown()
-    {
+
+    // --- moved to TrapUI ---
+    // private void OnMouseDown()
+    // {
         /*
         okay imma be real with you I don't fully understand this but imma try my best. kay here goes:
         difference represents the difference between object pos and mouse pos.
@@ -54,17 +57,26 @@ public class ClickDrag : MonoBehaviour
         huh, that was easier than I thought to pick up:)
 
         */
-        if (gameObject.GetComponent<Collider2D>().isTrigger) 
-        {
-            Instantiate(trap, origPos, Quaternion.identity, unusedTraps.transform);
-            difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        }
+        // if (gameObject.GetComponent<Collider2D>().isTrigger) 
+        // {
+        //     // Instantiate(trap, origPos, Quaternion.identity);
+        //     GameObject newTrap = Instantiate(trap, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity, trap.transform.parent);
+        //     newTrap.SetActive(true);
+        //     difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        // }
+    // }
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(0)) MouseDrag();
+        if (Input.GetMouseButtonUp(0)) MouseUp();
     }
 
-    private void OnMouseDrag()
+    // private void OnMouseDrag()
+    private void MouseDrag()
     {
-        //while dragging the mouse, move the object with the mouse by subtracting the mouse pos
-        //from the distance btw the object and mouse
+        // while dragging the mouse, move the object with the mouse by subtracting the mouse pos
+        // from the distance btw the object and mouse
 
         if (gameObject.GetComponent<Collider2D>().isTrigger) {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - difference;
@@ -72,14 +84,15 @@ public class ClickDrag : MonoBehaviour
 
     }
 
-    private void OnMouseUp() {
+    // private void OnMouseUp() 
+    private void MouseUp()
+    {
         if (inValid) {
             Destroy(gameObject);
         }
         else if (gameObject.GetComponent<Collider2D>().isTrigger && gameObject != null) {
             Vector3 tilePos = Tiles.currentTile.transform.position;
             transform.position = new Vector3(tilePos.x, tilePos.y, transform.position.z);
-            transform.parent = activeTraps.transform;
 
             gameObject.GetComponent<Collider2D>().isTrigger = false;
             counter--;
