@@ -88,7 +88,7 @@ public class ClickDrag : MonoBehaviour
     private void MouseUp()
     {
         if (inValid) {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         else if (gameObject.GetComponent<Collider2D>().isTrigger && gameObject != null) {
             Vector3 tilePos = Tiles.currentTile.transform.position;

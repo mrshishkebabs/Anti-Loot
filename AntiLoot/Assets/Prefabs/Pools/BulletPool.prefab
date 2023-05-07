@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8427907033555985774}
   - component: {fileID: 8427907033555985761}
   m_Layer: 0
-  m_Name: Object Pooling
+  m_Name: BulletPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountToPool: 3
   bulletPrefab: {fileID: 3588785861710850529, guid: e2f1b1fd562ca534d89568960524e5a6, type: 3}
+  bulletHolder: {fileID: 0}
