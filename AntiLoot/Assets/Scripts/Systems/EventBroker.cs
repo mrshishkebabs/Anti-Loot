@@ -10,7 +10,8 @@ public class EventBroker : MonoBehaviour
     //GameManager
     public static event Action<GameState> OnGameStateChange;
     public static event Action OnTrapPhaseStart;
-    public static event Action OnEscapePhaseStart;
+    public static event Action OnEscapePhaseStart;    
+    public static event Action<string, int> OnCounterUpdate;
 
     /*Example Call
     public static void CallResourceCollection()
@@ -31,5 +32,10 @@ public class EventBroker : MonoBehaviour
     public static void CallEscapePhaseStart()
     {
         OnEscapePhaseStart?.Invoke();
+    }
+
+    public static void CallCounterUpdate(string name, int number)
+    {
+        OnCounterUpdate?.Invoke(name, number);
     }
 }
