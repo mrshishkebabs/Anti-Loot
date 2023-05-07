@@ -58,8 +58,14 @@ public class PlayerController : MonoBehaviour
     public bool reachedGoal = false;
     public bool canMove = true;        //only false when player is ded
 
-    //debugging
-    //public Vector3 testLineLength;
+    //escapist abilities
+    public bool shieldChosen = false;
+    private bool shieldActive = false;
+    private float shieldDuration = 3f;
+    public GameObject shield;
+
+    public bool jamChosen = false;
+    public bool pulseChosen = false;
 
     private void Awake()
     {
@@ -92,10 +98,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //use this to visualize raycasts for debugging
-        //Debug.DrawLine(transform.position, transform.position + testLineLength);
-        //Debug.Log(rb.velocity);
-
         /*
         FOR THE DASH:
         we dont want any other movements to interrupt the dash while it's happening, 
@@ -182,12 +184,18 @@ public class PlayerController : MonoBehaviour
         else
             playerState = PlayerStates.Idle;
 
+
+        /////////////////////HIT COOLDOWN FOR INVULNERABILITY BETWEEN HITS//////////////////////////////////////
         HitCooldown();
+        
+        
         /////////////////////WALL JUMP CALL//////////////////////////////////////
         WallJump();
 
-        if(!grounded)
-            Debug.Log(rb.velocity);
+
+        /////////////////////SHIELD//////////////////////////////////////////////
+        if(Input.GetKeyDown(KeyCode.E) && shieldChosen == true)
+            ActivateShield();
     }
 
 
@@ -456,7 +464,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "trap")
+        if (col.gameObject.tag == "trap" && shieldActive == false)
         {
             Hit();
         }
@@ -468,57 +476,22 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.UpdateGameState(GameState.TrapPhase);
         }
     }
+
+    /////////////////////SHIELD//////////////////////////////////////
+    //activates shield effect and game object for 3 seconds
+    private void ActivateShield()
+    {
+        shieldActive = true;
+        shield.SetActive(true);
+
+        Invoke(nameof(DisableShield), shieldDuration);
+    }
+
+    //deactvates shield effect and game object
+    private void DisableShield()
+    {
+        shieldActive = false;
+        shield.SetActive(false);
+    }
 }
 
-/*
-     SIMPLE MOVEMENT
-     Horizontal is an input built into Unity. It starts at 0.(access Horizontal with Input.GetAxisRaw())
-     When the 'a' key is pressed, it's -1
-     When the 'd' key is pressed, it's 1
-     When nothing is pressed, it's 0
-     We can plug a variable set to Horizontal into the movement calculation
-     to automate left/right movement.
-
-     Use transfrom.Translate to move the player. It takes in a vector3 (x, y, z) for where the player is being moved.
-     Here, we're only moving on the x axis, so the speed calculation will only be in the x position, and the y and z
-     stay unchanged at 0.
-
-     For the speed calculation, xVel determines left or right movement, speed is the speed, and 
-     Time.deltaTime ensures that movement in time-based and not frame rate based(so that a pc
-     with a lower frame rate can move the same way).
-      */
-
-/*
-        JUMPING(this requires different components in different places, but I'll do the whole explanation here)
-        Here we're using a raycast to check if the player is on the ground. When we use the raycast, it'll shoot a ray
-        downwards(we set it to go down) a certain distance(groundCheckDistance). When it shoots, it'll look specifically for the ground,
-        using the "ground" layer(I don't remember why we use layer over tag tho). If the ray hits the ground within the distance, player is 
-        grounded. If false, player is in the air.
-
-        The rays will shoot down from the player sprite. I also have groundCheckOffset, which will be added and substracted from the 
-        center point of the player sprite. I'm doing this so the player hand be hanging off the edge of a platform and still jump,
-        allowing for more precise jumping.
-
-        The rest of the process is kinda simple: 
-            if player is grounded, apply an upward force to the player to jump
-            if not grounded, but double jump has not been used(false), apply another upward force and mark double jump as used(true).
-            if not grounded and double jump has been used, dont jump
-        */
-
-/*
-        DASHING
-        kinda similar to jumping: 
-        -bool in update(). 
-        -on button press, bool true
-        -on bool true: do physics movement in fixedupdate(), set bool to false
-        dun
-        
-        dash will be set to W for now
-
-        okay there's a lot of bools so I'll go thru that to for clarity:
-        -dashActive enables or disables the ability to dash, depending on if the player chooses dashing as a skill
-        -dashing is for the dash itself. when true, do the physics thing
-        -dashUsed limits the dash to once per jump. when true, player can't dash again. reset to false when the player jumps or wall jumps again
-        
-         MIGHT CHANGE IMPLEMENTATION TO MAKE THE DASH MORE LINEAR
-         */
