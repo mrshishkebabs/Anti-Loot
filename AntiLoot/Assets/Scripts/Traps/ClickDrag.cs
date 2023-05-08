@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClickDrag : MonoBehaviour
 {
     // public GameObject trap;    
-    public int counter = 3;
+    public string TrapType;
 
     Vector3 origPos;
     Vector3 difference = Vector2.zero;
@@ -95,7 +95,6 @@ public class ClickDrag : MonoBehaviour
             transform.position = new Vector3(tilePos.x, tilePos.y, transform.position.z);
 
             gameObject.GetComponent<Collider2D>().isTrigger = false;
-            counter--;
             if(gameObject.GetComponent<Animator>() != null)
             {
                 GetComponent<Animator>().enabled = true;

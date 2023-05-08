@@ -203,7 +203,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0056619644, y: -0.16985708}
+  m_Offset: {x: 0.008179903, y: -0.10690741}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -214,7 +214,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6036663, y: 0.54704773}
+  m_Size: {x: 0.6087022, y: 0.4211484}
   m_EdgeRadius: 0
 --- !u!114 &1789001909
 MonoBehaviour:
@@ -228,9 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a120662ee1fc1334e878483b220b006e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trap: {fileID: 9150884416042293866}
-  counter: 3
-  activeTraps: {fileID: 0}
+  TrapType: Turret
 --- !u!1 &9150884417157657118
 GameObject:
   m_ObjectHideFlags: 0
