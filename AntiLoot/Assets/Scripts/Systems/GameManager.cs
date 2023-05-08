@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;   
     public GameObject player;
     public GameState state;
+    public bool escapePhaseStarted = false;
 
     [SerializeField] private Transform startPoint;
 
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
         player.transform.position = startPoint.position;
         player.SetActive(true);
         EventBroker.CallEscapePhaseStart();
+        escapePhaseStarted = true;
     }
 
     private void HandleEndPhase()

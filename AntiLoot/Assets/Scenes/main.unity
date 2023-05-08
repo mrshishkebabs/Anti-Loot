@@ -3030,7 +3030,6 @@ RectTransform:
   - {fileID: 1150248946}
   - {fileID: 173867575}
   - {fileID: 2041502629}
-  - {fileID: 1687605611}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9531,6 +9530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   state: 0
+  escapePhaseStarted: 0
   startPoint: {fileID: 2071034590}
 --- !u!1 &1865562872
 GameObject:

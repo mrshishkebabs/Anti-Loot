@@ -62,9 +62,15 @@ public class PlayerController : MonoBehaviour
     public bool shieldChosen = false;
     private bool shieldActive = false;
     private float shieldDuration = 3f;
+    private bool shieldUsed = false;
     public GameObject shield;
 
     public bool jamChosen = false;
+    private float jamDuration = 1f;
+    private bool jamUsed = false;
+    [SerializeField] private GameObject[] traps;
+    private bool trapsStored = false;
+
     public bool pulseChosen = false;
 
     private void Awake()
@@ -109,7 +115,6 @@ public class PlayerController : MonoBehaviour
 
 
         xVel = Input.GetAxisRaw(PlayerInput.HORIZONTAL);
-        //transform.Translate(xVel * speed * Time.deltaTime, 0, 0);
 
 
         grounded = GroundCheck();
@@ -137,16 +142,6 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-
-        /*
-         CHECKING MOVEMENT DIRECTION 
-         if xVel is positive(less than 0), player is moving right
-         if negative, moving left
-         checking for phasing and animatons
-         (might swtich direction check to check for pressing a or d later, for more accuracy.)
-         we dont want to flip the sprite while the player is wall jumping, so check only happens
-         if the player is not wall jumping
-        */
 
         if (xVel < 0)//moving left
         {
@@ -194,8 +189,26 @@ public class PlayerController : MonoBehaviour
 
 
         /////////////////////SHIELD//////////////////////////////////////////////
-        if(Input.GetKeyDown(KeyCode.E) && shieldChosen == true)
+        if(Input.GetKeyDown(KeyCode.E) && shieldChosen == true && shieldUsed == false)
+        {
+            shieldUsed = true;
             ActivateShield();
+        }
+
+        /////////////////////JAM//////////////////////////////////////////////
+        if(FindObjectOfType<GameManager>().escapePhaseStarted == true && trapsStored == false)
+        {
+            trapsStored = true;
+            traps = GameObject.FindGameObjectsWithTag("trap");
+            Debug.Log(traps);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && jamChosen == true && jamUsed == false)
+        {
+            jamUsed = true;
+            ActivateJam();
+        }
+
     }
 
 
@@ -248,9 +261,6 @@ public class PlayerController : MonoBehaviour
         -after wall jump, can double jump or dash
         -essentially, wall jumping refreshes double jump and dash
         */
-        
-
-
         /////////////////////JUMPING//////////////////////////////////////
         if (jumping && canMove)
         {
@@ -492,6 +502,24 @@ public class PlayerController : MonoBehaviour
     {
         shieldActive = false;
         shield.SetActive(false);
+    }
+
+    /////////////////////JAM//////////////////////////////////////////////
+    private void ActivateJam()
+    {
+        foreach (GameObject trap in traps)
+        {
+            trap.gameObject.SetActive(false);
+        }
+        Invoke(nameof(DisableJam), jamDuration);
+    }
+
+    private void DisableJam()
+    {
+        foreach (GameObject trap in traps)
+        {
+            trap.gameObject.SetActive(true);
+        }
     }
 }
 
