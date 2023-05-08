@@ -52,11 +52,21 @@ public class TurretShooting : MonoBehaviour
         active = false;
     }
 
-    private void Fire()
+    /*private void Fire()
     {
         GameObject bullet = ObjectPool.instance.GetPooledObject();
 
         if(bullet != null)
+        {
+            bullet.transform.position = bulletPosition.position;
+            bullet.SetActive(true);
+        }
+    }*/
+
+    private void Fire()
+    {
+        GameObject bullet = ObjectPool.instance.GetPooledObject("Bullet");
+        if (bullet != null)
         {
             bullet.transform.position = bulletPosition.position;
             bullet.SetActive(true);
