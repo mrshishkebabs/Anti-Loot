@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -115,7 +115,679 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: CyberDomeTileSets_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 595
+        width: 228
+        height: 264
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdcc8869dc9592b45b8d841d3acea933
+      internalID: 911063856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_1
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 592
+        width: 232
+        height: 267
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91c053f2331e40643ba3691b3ffeda19
+      internalID: -2066559974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_2
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 595
+        width: 251
+        height: 269
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7ae940cf39408a49b75aad05d6a1b31
+      internalID: -1106711052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_3
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 595
+        width: 212
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a6a4509a525e624287bec1311066b14
+      internalID: 1633167560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_4
+      rect:
+        serializedVersion: 2
+        x: 1084
+        y: 794
+        width: 212
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -86, y: -130.5}
+        - {x: -104, y: -130.5}
+        - {x: -104, y: 130.5}
+        - {x: 104, y: 130.5}
+        - {x: 104, y: 59.5}
+        - {x: -87, y: 58.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11093e254495f95499f5c320627abb9c
+      internalID: 192622474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_5
+      rect:
+        serializedVersion: 2
+        x: 1348
+        y: 793
+        width: 212
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 85, y: -131.5}
+        - {x: 85, y: 60.5}
+        - {x: -106, y: 60.5}
+        - {x: -106, y: 131.5}
+        - {x: 106, y: 131.5}
+        - {x: 106, y: -131.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16ab7a016f416a348858f8496b15b204
+      internalID: -1366981667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_6
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 460
+        width: 212
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8520803c74b215245a6253867dee2de9
+      internalID: -1281770295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_7
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 388
+        width: 20
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8019c9ff9914a4541b9dd139df771c27
+      internalID: 879530337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_8
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 436
+        width: 210
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87191488f66c3024099f36ca82e366a8
+      internalID: -1942430729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_9
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 510
+        width: 251
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab37b878cb871ae4d85e81928e701cf8
+      internalID: 1421690839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_10
+      rect:
+        serializedVersion: 2
+        x: 1085
+        y: 602
+        width: 20
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -87, y: 60.5}
+        - {x: -86, y: -130.5}
+        - {x: -106, y: -130.5}
+        - {x: -106, y: 130.5}
+        - {x: 106, y: 130.5}
+        - {x: 106, y: 60.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e16afbbd21477643881d7843767a402
+      internalID: -970773868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_11
+      rect:
+        serializedVersion: 2
+        x: 1539
+        y: 600
+        width: 23
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 85, y: -132}
+        - {x: 84, y: 59}
+        - {x: -105, y: 59}
+        - {x: -105, y: 132}
+        - {x: 105, y: 132}
+        - {x: 105, y: -132}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15bacf12cbe2109438115ee79901183d
+      internalID: 488581455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_12
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 335
+        width: 212
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fa55c21d6d35a446a9b38b7852cc592
+      internalID: 352192581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_13
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 287
+        width: 212
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -104.52536, y: -138}
+        - {x: -104.05844, y: 130.11548}
+        - {x: -87.03876, y: 130.19543}
+        - {x: -85.895355, y: -39.43866}
+        - {x: 106.105225, y: -39.691406}
+        - {x: 106.35263, y: -138}
+      physicsShape:
+      - - {x: -105, y: -138}
+        - {x: -104, y: 131}
+        - {x: -86, y: 131}
+        - {x: -85, y: -40}
+        - {x: 106, y: -40}
+        - {x: 106, y: -138}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4697c0836ff32c449b17fdd2bc2a12a7
+      internalID: 460090540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_14
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 288
+        width: 211
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -102.5, y: -135}
+        - {x: -101.5, y: -37}
+        - {x: 88.5, y: -38}
+        - {x: 88.5, y: 132}
+        - {x: 108.5, y: 132}
+        - {x: 108.5, y: -136}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d639e970ac0ea04fac6f7cea4598e3a
+      internalID: -471701700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_15
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 431
+        width: 211
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19adfd6b36a99df4dbdee9c21282ec8e
+      internalID: 1094023422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_16
+      rect:
+        serializedVersion: 2
+        x: 1085
+        y: 499
+        width: 211
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bfc66174ad42b34aa05a23512c37a3d
+      internalID: 1811786809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_17
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 501
+        width: 211
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c62120e9047b0e642a031f70f47f71a3
+      internalID: -1433388135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_18
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 209
+        width: 211
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fef073237ef8964495cc20fc298fe78
+      internalID: 1538839450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_19
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 388
+        width: 20
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a96764e92a70c647bc753b61c504072
+      internalID: -1610377983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_20
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 29
+        width: 212
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cace9d01f3bdd0347817c95c02697f45
+      internalID: -534020352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_21
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 29
+        width: 211
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cc846d5d0a19814fb96e5b1cf7cfb2a
+      internalID: 526413218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_22
+      rect:
+        serializedVersion: 2
+        x: 1085
+        y: 307
+        width: 20
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 596559fb5ac764943a31bd8154108664
+      internalID: 1436415262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_23
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 310
+        width: 20
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba5c6c41b26d96349bc04911aa454f3a
+      internalID: -1861823485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_24
+      rect:
+        serializedVersion: 2
+        x: 1229
+        y: 682
+        width: 211
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab400f432077fe94cb7fe2791ab82518
+      internalID: 1045836349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_25
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 25
+        width: 160
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bce56b1d487c2704a8af278136dc487e
+      internalID: -902303774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_26
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 29
+        width: 211
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60cd4c6dd25a8734baea62561d3f64c7
+      internalID: -1855542035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_27
+      rect:
+        serializedVersion: 2
+        x: 1132
+        y: 29
+        width: 210
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f0224b2b0f60c24ead405eb125a462a
+      internalID: -1904982286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_28
+      rect:
+        serializedVersion: 2
+        x: 1363
+        y: 27
+        width: 237
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adca63d432a468944b4eb6da2530a131
+      internalID: -1040608409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CyberDomeTileSets_29
+      rect:
+        serializedVersion: 2
+        x: 1237
+        y: 367
+        width: 211
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b8e1d8c1b5a9c641a61fd0dc17da8a0
+      internalID: 1553629536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +798,37 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CyberDomeTileSets_1: -2066559974
+      CyberDomeTileSets_5: -1366981667
+      CyberDomeTileSets_15: 1094023422
+      CyberDomeTileSets_24: 1045836349
+      CyberDomeTileSets_3: 1633167560
+      CyberDomeTileSets_7: 879530337
+      CyberDomeTileSets_12: 352192581
+      CyberDomeTileSets_13: 460090540
+      CyberDomeTileSets_6: -1281770295
+      CyberDomeTileSets_26: -1855542035
+      CyberDomeTileSets_18: 1538839450
+      CyberDomeTileSets_22: 1436415262
+      CyberDomeTileSets_2: -1106711052
+      CyberDomeTileSets_16: 1811786809
+      CyberDomeTileSets_4: 192622474
+      CyberDomeTileSets_11: 488581455
+      CyberDomeTileSets_10: -970773868
+      CyberDomeTileSets_20: -534020352
+      CyberDomeTileSets_8: -1942430729
+      CyberDomeTileSets_17: -1433388135
+      CyberDomeTileSets_28: -1040608409
+      CyberDomeTileSets_23: -1861823485
+      CyberDomeTileSets_0: 911063856
+      CyberDomeTileSets_21: 526413218
+      CyberDomeTileSets_25: -902303774
+      CyberDomeTileSets_27: -1904982286
+      CyberDomeTileSets_19: -1610377983
+      CyberDomeTileSets_14: -471701700
+      CyberDomeTileSets_9: 1421690839
+      CyberDomeTileSets_29: 1553629536
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

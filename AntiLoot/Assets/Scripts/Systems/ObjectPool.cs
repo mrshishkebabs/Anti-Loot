@@ -9,6 +9,15 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private List<PooledObject> traps = new List<PooledObject>();
     private List<GameObject> pooledObjects = new List<GameObject>();
 
+    private void OnEnable()
+    {
+        EventBroker.OnTrapPhaseStart += ResetTraps;
+    }
+    private void OnDisable()
+    {
+        EventBroker.OnTrapPhaseStart -= ResetTraps;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -118,7 +127,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    public void ResetTraps()
+    public void BeginCount()
     {
         foreach (PooledObject pooledTrap in traps)
         {
@@ -127,6 +136,20 @@ public class ObjectPool : MonoBehaviour
                 if (!pooledTrap.pooledTraps[i].activeInHierarchy)
                 {
                     EventBroker.CallCounterUpdate(pooledTrap.TrapName, pooledTrap.pooledTraps.Count);
+                }
+            }
+        }
+    }
+
+    public void ResetTraps()
+    {
+        foreach (PooledObject pooledTrap in traps)
+        {
+            for (int i = 0; i < pooledTrap.pooledTraps.Count; i++)
+            {
+                if (pooledTrap.pooledTraps[i].activeInHierarchy)
+                {
+                    pooledTrap.pooledTraps[i].SetActive(false);
                 }
             }
         }

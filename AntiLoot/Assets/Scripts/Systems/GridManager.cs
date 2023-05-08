@@ -32,12 +32,12 @@ public class GridManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventBroker.OnTrapPhaseStart += GenerateGrid;
+        //EventBroker.OnTrapPhaseStart += GenerateGrid;
     }
 
     private void OnDisable()
     {
-        EventBroker.OnTrapPhaseStart -= GenerateGrid;
+        //EventBroker.OnTrapPhaseStart -= GenerateGrid;
     }
 
     private void Start()
@@ -71,7 +71,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void GenerateGrid()
+    public void GenerateGrid()
     {
         tileDiction = new Dictionary<Vector2, Tiles>();
         for(int x= 0; x < width; x++)

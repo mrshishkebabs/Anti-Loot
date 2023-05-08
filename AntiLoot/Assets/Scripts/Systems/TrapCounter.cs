@@ -7,16 +7,19 @@ public class TrapCounter : MonoBehaviour
 {
     [SerializeField] private string trapName;
     [SerializeField] private int counter = 0;
+    [SerializeField] private int oriNum = 4;
     [SerializeField] TextMeshProUGUI counterText;
 
     private void OnEnable()
     {
         EventBroker.OnCounterUpdate += UpdateCount;
+        EventBroker.OnTrapPhaseStart += ResetCount;
     }
 
     private void OnDisable()
     {
         EventBroker.OnCounterUpdate -= UpdateCount;
+        EventBroker.OnTrapPhaseStart -= ResetCount;
     }
 
     // Start is called before the first frame update
@@ -49,5 +52,6 @@ public class TrapCounter : MonoBehaviour
     private void ResetCount()
     {
         counter = 0;
+        counterText.text = trapName + "\n" + oriNum;
     }
 }
