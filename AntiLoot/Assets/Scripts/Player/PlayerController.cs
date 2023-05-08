@@ -28,8 +28,8 @@ public class PlayerController : MonoBehaviour
     //dash
     private bool dashing = false;
     private bool dashUsed = false;
-    public float dashTime = 0.3f;
-    public float dashForce = 6;
+    private float dashTime = 0.3f;
+    private float dashForce = 6;
     public TrailRenderer trail;
 
     //wall jump
@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
         if (grounded && !Input.GetKey(KeyCode.Space))
         {
             doubleJumping = false;
+            dashUsed = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 //for doubleJumpUsed, set it to it's opposite. on first jump it'll switch to true, allowing the double jump
                 //on the second jump, it'll switch to false to lock it out again
                 //it'll stay false until the player hits the ground and it resets
-                dashUsed = false;
+                
             }
 
         }
