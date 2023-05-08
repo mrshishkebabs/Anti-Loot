@@ -28,8 +28,8 @@ public class PlayerController : MonoBehaviour
     //dash
     private bool dashing = false;
     private bool dashUsed = false;
-    private float dashTime = 0.2f;
-    private float dashForce = 4;
+    public float dashTime = 0.3f;
+    public float dashForce = 6;
     public TrailRenderer trail;
 
     //wall jump
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheck;
     [SerializeField] private bool onWall;
     private float wallSlideSpeed = 2f;
-    private Vector2 wallJumpForce =  new Vector2(8, 16);
+    public Vector2 wallJumpForce =  new Vector2(6, 15);
     private float wallJumpDirection;
     private float wallJumpTime = 0.2f;
     private float wallJumpCounter;
@@ -278,9 +278,7 @@ public class PlayerController : MonoBehaviour
         if (jumping && canMove)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            //rb.AddForce(new Vector2(rb.velocity.x, jumpForce), ForceMode2D.Impulse);
             jumping = false;
-            //Debug.Log(rb.velocity);
         }
 
 
