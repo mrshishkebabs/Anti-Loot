@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheck;
     [SerializeField] private bool onWall;
     private float wallSlideSpeed = 2f;
-    public Vector2 wallJumpForce;
+    private Vector2 wallJumpForce =  new Vector2(8, 16);
     private float wallJumpDirection;
     private float wallJumpTime = 0.2f;
     private float wallJumpCounter;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
     //win condition
     public bool reachedGoal = false;
-    public bool canMove = true;        //only false when player is ded
+    private bool canMove = true;        //only false when player is ded
 
     //escapist abilities
     public bool shieldChosen = false;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
     public bool jamChosen = false;
     private float jamDuration = 1f;
     private bool jamUsed = false;
-    [SerializeField] private GameObject[] traps;
+    private GameObject[] traps;
     private bool trapsStored = false;
 
     public bool pulseChosen = false;

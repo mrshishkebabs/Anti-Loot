@@ -674,8 +674,9 @@ GameObject:
   - component: {fileID: 176719955}
   - component: {fileID: 176719954}
   - component: {fileID: 176719953}
+  - component: {fileID: 176719956}
   m_Layer: 5
-  m_Name: Escapist Ability 1
+  m_Name: Jam Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,6 +759,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 176719956}
+        m_TargetAssemblyTypeName: ActivateJam, Assembly-CSharp
+        m_MethodName: Jam
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &176719954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,6 +809,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176719951}
   m_CullTransparentMesh: 1
+--- !u!114 &176719956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176719951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d41e9763d333bb4a8b8bba3dd2bc0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &190880921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,7 +1046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &222648592
 Transform:
   m_ObjectHideFlags: 0
@@ -1200,8 +1225,9 @@ GameObject:
   - component: {fileID: 242796248}
   - component: {fileID: 242796247}
   - component: {fileID: 242796246}
+  - component: {fileID: 242796249}
   m_Layer: 5
-  m_Name: Escapist Ability 3
+  m_Name: Pulse Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1284,6 +1310,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 242796249}
+        m_TargetAssemblyTypeName: ActivatePulse, Assembly-CSharp
+        m_MethodName: Pulse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &242796247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1322,6 +1360,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 242796244}
   m_CullTransparentMesh: 1
+--- !u!114 &242796249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242796244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c4cc65f53f1409e5def93303b91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &253866138 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1281066736236818106, guid: ad3bc0c065c59d74d9f64e7b2b8d3393, type: 3}
@@ -2303,7 +2353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1072e8687f81d4f01a399e84705caa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapUIName: Ball
+  trapUIName: 
   TrapCount: 0
   Counter: 0
   trap: {fileID: 565144719}
@@ -2926,37 +2976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d407d5568b4629648b5a724aafce5208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  traps:
-  - pooledTraps: []
-    TrapName: Spikes
-    amountToPool: 4
-    numberAvailable: 0
-    objPrefab: {fileID: 6854160145749825202, guid: 18078ef0eb2cc30488148581252c3763, type: 3}
-    prefabHolder: {fileID: 1723211079}
-  - pooledTraps: []
-    TrapName: Hammer
-    amountToPool: 4
-    numberAvailable: 0
-    objPrefab: {fileID: 1281066736236818105, guid: ad3bc0c065c59d74d9f64e7b2b8d3393, type: 3}
-    prefabHolder: {fileID: 1608152800}
-  - pooledTraps: []
-    TrapName: Ball
-    amountToPool: 4
-    numberAvailable: 0
-    objPrefab: {fileID: 888923392719168057, guid: be57f7f085028b642a06c782d2dbe2d4, type: 3}
-    prefabHolder: {fileID: 1317815474}
-  - pooledTraps: []
-    TrapName: Turret
-    amountToPool: 4
-    numberAvailable: 0
-    objPrefab: {fileID: 9150884416042293866, guid: 10705676e8afa1449b2a2219be9b9e72, type: 3}
-    prefabHolder: {fileID: 1720526876}
-  - pooledTraps: []
-    TrapName: Bullet
-    amountToPool: 4
-    numberAvailable: 0
-    objPrefab: {fileID: 3588785861710850529, guid: e2f1b1fd562ca534d89568960524e5a6, type: 3}
-    prefabHolder: {fileID: 1790602745}
+  traps: []
 --- !u!1 &561139124
 GameObject:
   m_ObjectHideFlags: 0
@@ -3701,7 +3721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1072e8687f81d4f01a399e84705caa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapUIName: Hammer
+  trapUIName: 
   TrapCount: 0
   Counter: 0
   trap: {fileID: 258110587}
@@ -4374,8 +4394,9 @@ GameObject:
   - component: {fileID: 861605198}
   - component: {fileID: 861605197}
   - component: {fileID: 861605196}
+  - component: {fileID: 861605199}
   m_Layer: 5
-  m_Name: Escapist Ability 2
+  m_Name: Shield Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4458,6 +4479,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 861605199}
+        m_TargetAssemblyTypeName: ActivateShield, Assembly-CSharp
+        m_MethodName: Shield
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &861605197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4496,6 +4529,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861605194}
   m_CullTransparentMesh: 1
+--- !u!114 &861605199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861605194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 151290af2c925024c8f93b8937744800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &873083557
 GameObject:
   m_ObjectHideFlags: 0
@@ -11266,7 +11311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1072e8687f81d4f01a399e84705caa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapUIName: Spikes
+  trapUIName: 
   TrapCount: 0
   Counter: 0
   trap: {fileID: 1469128094}
@@ -11386,7 +11431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1072e8687f81d4f01a399e84705caa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapUIName: Turret
+  trapUIName: 
   TrapCount: 0
   Counter: 0
   trap: {fileID: 899110547}
