@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour
     private bool trapsStored = false;
 
     public bool pulseChosen = false;
+    private bool pulseUsed = false;
+    private float pulseForce = 4f;
 
     private void Awake()
     {
@@ -138,7 +140,6 @@ public class PlayerController : MonoBehaviour
                 //on the second jump, it'll switch to false to lock it out again
                 //it'll stay false until the player hits the ground and it resets
                 dashUsed = false;
-                Debug.Log("jump");
             }
 
         }
@@ -207,6 +208,13 @@ public class PlayerController : MonoBehaviour
         {
             jamUsed = true;
             ActivateJam();
+        }
+
+        /////////////////////PULSE//////////////////////////////////////////////
+        if (Input.GetKeyDown(KeyCode.E) && pulseChosen == true && pulseUsed == false)
+        {
+            pulseUsed = true;
+            ActivatePulse();
         }
 
     }
@@ -505,6 +513,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /////////////////////JAM//////////////////////////////////////////////
+    //deactivates all traps for 1 second
     private void ActivateJam()
     {
         foreach (GameObject trap in traps)
@@ -513,12 +522,34 @@ public class PlayerController : MonoBehaviour
         }
         Invoke(nameof(DisableJam), jamDuration);
     }
-
+    //turns all the traps back on
     private void DisableJam()
     {
         foreach (GameObject trap in traps)
         {
             trap.gameObject.SetActive(true);
+        }
+    }
+
+    /////////////////////PULSE//////////////////////////////////////////////
+    //push all traps away from the player
+    private void ActivatePulse()
+    {
+        foreach(GameObject trap in traps)
+        {
+            float xPos = trap.transform.position.x;
+            float yPos = trap.transform.position.y;
+            float zPos = trap.transform.position.z;
+            
+            //if trap is to the right of the player, push more right
+            if(xPos > this.transform.position.x)
+            {
+                trap.transform.position = new Vector3(xPos + pulseForce, yPos, zPos);
+            }
+
+            //if not, push to the left
+            else
+                trap.transform.position = new Vector3(xPos - pulseForce, yPos, zPos);
         }
     }
 }

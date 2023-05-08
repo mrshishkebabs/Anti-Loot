@@ -100,13 +100,13 @@ public class AbilitySelectScreen : MonoBehaviour
         switch (name)
         {
             case Abilities.Jam:
-                EscText.text = "Choose a trap and disable it for a ~set amount of time";
+                EscText.text = "Disable all traps for 1 second";
                 break;
             case Abilities.Shield:
-                EscText.text = "Shield yourself for a ~set amount of time, becoming invulnerable to any hits";
+                EscText.text = "Shield yourself from damage for 3 seconds";
                 break;
             case Abilities.Pulse:
-                EscText.text = "Release a wave ~pushing all traps away slightly";
+                EscText.text = "Push all traps away slightly";
                 break;
             case Abilities.Accelerate:
                 TrapText.text = "All Traps move faster for a ~set amount of time ";
