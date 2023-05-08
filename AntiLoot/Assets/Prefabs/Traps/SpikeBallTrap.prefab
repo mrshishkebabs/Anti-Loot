@@ -94,9 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 888923392719168036}
   - component: {fileID: 888923392719168059}
-  - component: {fileID: 888923392719168058}
   - component: {fileID: 2079347664}
   - component: {fileID: 2079347663}
+  - component: {fileID: 2214236774745682590}
   m_Layer: 0
   m_Name: SpikeBallTrap
   m_TagString: trap
@@ -140,32 +140,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!61 &888923392719168058
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888923392719168057}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!50 &2079347664
 Rigidbody2D:
   serializedVersion: 4
@@ -199,6 +173,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a120662ee1fc1334e878483b220b006e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trap: {fileID: 888923392719168057}
-  counter: 3
-  activeTraps: {fileID: 0}
+  TrapType: Ball
+--- !u!60 &2214236774745682590
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888923392719168057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.17131186, y: 0.16894625}
+      - {x: 0.16936731, y: 0.28869987}
+      - {x: 0.0592072, y: 0.25263762}
+      - {x: -0.01891303, y: 0.38848054}
+      - {x: -0.09557891, y: 0.24919987}
+      - {x: -0.21603155, y: 0.29618716}
+      - {x: -0.21446729, y: 0.173506}
+      - {x: -0.37736303, y: 0.25227812}
+      - {x: -0.27564645, y: 0.032497138}
+      - {x: -0.42083955, y: -0.041371617}
+      - {x: -0.25249314, y: -0.082348265}
+      - {x: -0.24104732, y: -0.2794537}
+      - {x: -0.12670088, y: -0.20319156}
+      - {x: 0.02725768, y: -0.20241886}
+      - {x: 0.11496079, y: -0.29206228}
+      - {x: 0.16902614, y: -0.117920324}
+      - {x: 0.37183523, y: -0.08064238}
+      - {x: 0.20286512, y: -0.011308938}
+      - {x: 0.3143201, y: 0.23966962}

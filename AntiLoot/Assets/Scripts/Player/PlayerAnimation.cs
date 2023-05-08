@@ -18,7 +18,24 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        MoveAnimation();
+        if (player.playerState == PlayerStates.Damage)
+        {
+            ChangeAnimationState(PlayerAnimations.PLAYERDMG);
+        }
+        else if(player.playerState == PlayerStates.ShotDeath)
+        {
+            ChangeAnimationState(PlayerAnimations.SPIKEDBALLDEATH);
+        }
+        else if (player.playerState == PlayerStates.BallDeath)
+        {
+            ChangeAnimationState(PlayerAnimations.SPIKEDBALLDEATH);
+        }
+        else if (player.playerState == PlayerStates.SpikeDeath)
+        {
+            ChangeAnimationState(PlayerAnimations.SPIKEUPDEATH);
+        }
+        else
+            MoveAnimation(); 
     }
 
     public void SetCanAnimate(bool can)

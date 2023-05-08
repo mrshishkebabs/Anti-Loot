@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3588785861710850530}
   - component: {fileID: -7585619219197381303}
   - component: {fileID: 10603648056038255}
+  - component: {fileID: -8824473992820550994}
   m_Layer: 0
   m_Name: TurretBullet
   m_TagString: trap
@@ -106,6 +107,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-8824473992820550994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3588785861710850529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a120662ee1fc1334e878483b220b006e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TrapType: Turret
 --- !u!1 &3588785862732097483
 GameObject:
   m_ObjectHideFlags: 0

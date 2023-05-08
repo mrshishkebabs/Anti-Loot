@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown, JumpDown, WallSlide, WallCling };
+public enum PlayerStates { Idle, Walk, JumpUp, JUptoDown, JumpDown, WallSlide, WallCling, Damage, ShotDeath, BallDeath, SpikeDeath};
 public class PlayerController : MonoBehaviour
 {
     public PlayerStates playerState = PlayerStates.Idle;
@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
     private bool wallSliding = false;
 
     public int hitsTillDead = 3;
+    public bool takingDMG = false;
+    [SerializeField] private string lastTrapHit;
     private float hitCooldown = 0;
     private float hitCooldownReset = 200f;
     public GameObject hitCooldownIndicator;
@@ -163,22 +165,25 @@ public class PlayerController : MonoBehaviour
 
 
         //Animation State
-        if (xVel != 0)
+        if (!takingDMG && hitsTillDead != 0)
         {
-            playerState = PlayerStates.Walk;
+            if (xVel != 0)
+            {
+                playerState = PlayerStates.Walk;
+            }
+            else if (rb.velocity.y > 0)
+            {
+                playerState = PlayerStates.JumpUp;
+            }
+            else if (rb.velocity.y < 0)
+            {
+                playerState = PlayerStates.JumpDown;
+                if (onWall)
+                    playerState = PlayerStates.WallSlide;
+            }
+            else
+                playerState = PlayerStates.Idle;
         }
-        else if (rb.velocity.y > 0)
-        {
-            playerState = PlayerStates.JumpUp;
-        }
-        else if (rb.velocity.y < 0)
-        {
-            playerState = PlayerStates.JumpDown;
-            if (onWall)
-                playerState = PlayerStates.WallSlide;
-        }
-        else
-            playerState = PlayerStates.Idle;
 
 
         /////////////////////HIT COOLDOWN FOR INVULNERABILITY BETWEEN HITS//////////////////////////////////////
@@ -438,10 +443,22 @@ public class PlayerController : MonoBehaviour
             if (hitsTillDead == 0)
             {
                 canMove = false;
-                GameManager.instance.UpdateGameState(GameState.TrapPhase);
+                if (lastTrapHit == Traps.TURRET)
+                    playerState = PlayerStates.ShotDeath;
+                else if (lastTrapHit == Traps.BALL)
+                    playerState = PlayerStates.BallDeath;
+                else if (lastTrapHit == Traps.HAMMER)
+                    playerState = PlayerStates.ShotDeath;
+                else if (lastTrapHit == Traps.SPIKES)
+                    playerState = PlayerStates.SpikeDeath;
+                else
+                    GameManager.instance.UpdateGameState(GameState.TrapPhase);
             }
             else
+            {
                 hitCooldown = hitCooldownReset;
+
+            }
         }
 
 
@@ -458,7 +475,8 @@ public class PlayerController : MonoBehaviour
             {
                 hitCooldownIndicator.SetActive(true);
                 if (hitsTillDead == 1)
-                    lastLifeText.SetActive(true);
+                    lastLifeText.SetActive(true);                
+                playerState = PlayerStates.Damage;
             }
 
         }
@@ -484,6 +502,7 @@ public class PlayerController : MonoBehaviour
     {
         if (col.gameObject.tag == "trap" && shieldActive == false)
         {
+            lastTrapHit = col.gameObject.GetComponent<ClickDrag>().TrapType;
             Hit();
         }
 
@@ -551,6 +570,21 @@ public class PlayerController : MonoBehaviour
             else
                 trap.transform.position = new Vector3(xPos - pulseForce, yPos, zPos);
         }
+    }
+    
+    public void InDMGState()
+    {
+        if (!takingDMG)
+            takingDMG = true;
+        else if(takingDMG)
+            takingDMG = false;
+    }
+
+    public void GobackToTrapPhase()
+    {
+        playerState = PlayerStates.Idle;
+        takingDMG = false;
+        GameManager.instance.UpdateGameState(GameState.TrapPhase);
     }
 }
 

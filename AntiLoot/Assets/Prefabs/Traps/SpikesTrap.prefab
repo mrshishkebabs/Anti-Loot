@@ -115,9 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a120662ee1fc1334e878483b220b006e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trap: {fileID: 6854160145749825202}
-  counter: 3
-  activeTraps: {fileID: 0}
+  TrapType: Spikes
 --- !u!1 &6854160145981565833
 GameObject:
   m_ObjectHideFlags: 0
