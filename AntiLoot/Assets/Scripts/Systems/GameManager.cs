@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateGameState(GameState.PreGamePhase);
         player = PlayerManager.instance.player;
+        FindObjectOfType<AudioManager>().Play("Menu");
     }
 
     public void UpdateGameState(GameState newState)
