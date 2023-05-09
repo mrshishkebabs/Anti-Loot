@@ -1422,6 +1422,84 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    loop: 1
+  - name: SetTraps
+    clip: {fileID: 8300000, guid: ba1af3f003f21ec49a97fb494020d17a, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: InGame
+    clip: {fileID: 8300000, guid: 53494458de41e3c419f1a9f54f619dcf, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: Select
+    clip: {fileID: 8300000, guid: a447d7ed5332c824d95ded10d12b8531, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: EscapeStart
+    clip: {fileID: 8300000, guid: 0fc3a96dcef8e1d438f6f2285de01ab4, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: taunt1
+    clip: {fileID: 8300000, guid: 0eaf852b0404ab64fb11247c0d99275b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: taunt2
+    clip: {fileID: 8300000, guid: e488793b34b1b084db798ca65bbe5e6c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: taunt3
+    clip: {fileID: 8300000, guid: 8278fe7a2c8f4cc419a2e08ce994502c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: Jump
+    clip: {fileID: 8300000, guid: 6ba85d91bbc11d8469af4b47fc7234ca, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: Hammer
+    clip: {fileID: 8300000, guid: f15af9ac0d59035408ec43b611e2994f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: Shoot
+    clip: {fileID: 8300000, guid: b8da118615652124792f0c4fa06fac53, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Spike1
+    clip: {fileID: 8300000, guid: dd17b19bf3787f44e8ccced3ea907a0b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Spike2
+    clip: {fileID: 8300000, guid: a485e170df0a9814ca33f01aea2d8bcc, type: 3}
+    volume: 0.728
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Spike3
+    clip: {fileID: 8300000, guid: e0dbbaffc8334fc4ca4774cd86aff697, type: 3}
+    volume: 0.728
+    pitch: 1
+    source: {fileID: 0}
     loop: 0
 --- !u!4 &253866138 stripped
 Transform:
