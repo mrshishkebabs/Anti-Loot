@@ -55,4 +55,32 @@ public class AudioManager : MonoBehaviour
 
         s.source.Stop();
     }
+
+    public void Taunt()
+    {
+        string n = UnityEngine.Random.Range(1, 4).ToString();
+        Sound s = Array.Find(sounds, sounds => sounds.name == "taunt" + n);
+
+        if (s == null)
+        {
+            Debug.LogWarning(name + "aint here bud");
+            return;
+        }
+        s.loop = false;
+        s.source.Play();
+    }
+
+    public void Spike()
+    {
+        string n = UnityEngine.Random.Range(1, 4).ToString();
+        Sound s = Array.Find(sounds, sounds => sounds.name == "Spike" + n);
+
+        if (s == null)
+        {
+            Debug.LogWarning(name + "aint here bud");
+            return;
+        }
+        s.loop = false;
+        s.source.Play();
+    }
 }

@@ -73,11 +73,14 @@ public class GameManager : MonoBehaviour
         //MainMenu
 
         //Ability Select
+        
     }
 
     private void HandleTrapPhase()
     {
         EventBroker.CallTrapPhaseStart();
+        FindObjectOfType<AudioManager>().Stop("Menu");
+        FindObjectOfType<AudioManager>().Play("SetTraps");
     }
 
     private void HandleEscapePhase()
@@ -86,10 +89,14 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
         EventBroker.CallEscapePhaseStart();
         escapePhaseStarted = true;
+
+        FindObjectOfType<AudioManager>().Stop("SetTraps");
+        FindObjectOfType<AudioManager>().Play("InGame");
     }
 
     private void HandleEndPhase()
     {
+        FindObjectOfType<AudioManager>().Taunt();
         throw new NotImplementedException();
     }
 

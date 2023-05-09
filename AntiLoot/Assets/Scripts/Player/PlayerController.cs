@@ -279,6 +279,7 @@ public class PlayerController : MonoBehaviour
         if (jumping && canMove)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            FindObjectOfType<AudioManager>().Play("Jump");
             jumping = false;
         }
 
