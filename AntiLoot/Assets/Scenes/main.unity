@@ -307,6 +307,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 245407839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Select
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &76741214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1419,19 +1431,19 @@ MonoBehaviour:
   sounds:
   - name: Menu
     clip: {fileID: 8300000, guid: 53494458de41e3c419f1a9f54f619dcf, type: 3}
-    volume: 1
+    volume: 0.129
     pitch: 1
     source: {fileID: 0}
     loop: 1
   - name: SetTraps
-    clip: {fileID: 8300000, guid: ba1af3f003f21ec49a97fb494020d17a, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 4e1bb962502231243a6ff313c10e8e5f, type: 3}
+    volume: 0.129
     pitch: 1
     source: {fileID: 0}
     loop: 1
   - name: InGame
     clip: {fileID: 8300000, guid: 53494458de41e3c419f1a9f54f619dcf, type: 3}
-    volume: 1
+    volume: 0.129
     pitch: 1
     source: {fileID: 0}
     loop: 1
@@ -1440,37 +1452,37 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 1
+    loop: 0
   - name: EscapeStart
     clip: {fileID: 8300000, guid: 0fc3a96dcef8e1d438f6f2285de01ab4, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 1
+    loop: 0
   - name: taunt1
     clip: {fileID: 8300000, guid: 0eaf852b0404ab64fb11247c0d99275b, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 1
+    loop: 0
   - name: taunt2
     clip: {fileID: 8300000, guid: e488793b34b1b084db798ca65bbe5e6c, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 1
+    loop: 0
   - name: taunt3
     clip: {fileID: 8300000, guid: 8278fe7a2c8f4cc419a2e08ce994502c, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 1
+    loop: 0
   - name: Jump
     clip: {fileID: 8300000, guid: 6ba85d91bbc11d8469af4b47fc7234ca, type: 3}
-    volume: 1
+    volume: 0.074
     pitch: 1
     source: {fileID: 0}
-    loop: 1
+    loop: 0
   - name: Hammer
     clip: {fileID: 8300000, guid: f15af9ac0d59035408ec43b611e2994f, type: 3}
     volume: 1
@@ -3354,6 +3366,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 245407839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Select
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &599244056
@@ -6436,6 +6460,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 245407839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Select
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1127702579
@@ -10836,6 +10872,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 245407839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Select
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1957721598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11683,6 +11731,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 245407839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Select
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2122022013
