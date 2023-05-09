@@ -18,6 +18,13 @@ public class Traps
     public const string HAMMER = "Hammer";
 }
 
+public class TrapperAbilities
+{
+    public const string ACCELERATE = "Accelerate";
+    public const string DIZZY = "Dizzy";
+    public const string DESPERATION = "Desperation";
+}
+
 public class PlayerAnimations
 {
     public const string IDLE = "Idle";

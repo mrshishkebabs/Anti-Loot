@@ -13,13 +13,14 @@ public class TrapCounter : MonoBehaviour
     private void OnEnable()
     {
         EventBroker.OnCounterUpdate += UpdateCount;
-        EventBroker.OnTrapPhaseStart += ResetCount;
+        //EventBroker.OnTrapPhaseStart += ResetCount;
+        ResetCount();
     }
 
     private void OnDisable()
     {
         EventBroker.OnCounterUpdate -= UpdateCount;
-        EventBroker.OnTrapPhaseStart -= ResetCount;
+        //EventBroker.OnTrapPhaseStart -= ResetCount;
     }
 
     // Start is called before the first frame update
@@ -36,7 +37,7 @@ public class TrapCounter : MonoBehaviour
 
     private void UpdateCount(string name, int number)
     {
-        Debug.Log(number);
+        oriNum = number;
         if(trapName == name && number >= counter)
         {
             counterText.text = name + "\n" + (number - counter);
@@ -51,6 +52,7 @@ public class TrapCounter : MonoBehaviour
 
     private void ResetCount()
     {
+        Debug.Log("doesn't work");
         counter = 0;
         counterText.text = trapName + "\n" + oriNum;
     }

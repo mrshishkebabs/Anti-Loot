@@ -109,13 +109,16 @@ public class AbilitySelectScreen : MonoBehaviour
                 EscText.text = "Push all traps away slightly";
                 break;
             case Abilities.Accelerate:
-                TrapText.text = "All Traps move faster for a ~set amount of time ";
+                TrapText.text = "All Traps move faster for a set time ";
+                EventBroker.CallTrapperAbilitySelect(TrapperAbilities.ACCELERATE);
                 break;
             case Abilities.Dizzy:
-                TrapText.text = "Flip the screen for a ~set amount of time";
+                TrapText.text = "Flip the screen for a set time";
+                EventBroker.CallTrapperAbilitySelect(TrapperAbilities.DIZZY);
                 break;
             case Abilities.Desperation:
                 TrapText.text = "Pick up ~1 trap and reposition it";
+                EventBroker.CallTrapperAbilitySelect(TrapperAbilities.DESPERATION);
                 break;
         }
     }

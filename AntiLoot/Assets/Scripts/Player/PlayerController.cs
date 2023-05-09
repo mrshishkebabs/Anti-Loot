@@ -167,18 +167,18 @@ public class PlayerController : MonoBehaviour
         //Animation State
         if (!takingDMG && hitsTillDead != 0)
         {
-            if (xVel != 0)
+            if (xVel != 0 && !wallSliding)
             {
                 playerState = PlayerStates.Walk;
             }
-            else if (rb.velocity.y > 0)
+            else if (rb.velocity.y > 0 && !wallSliding)
             {
                 playerState = PlayerStates.JumpUp;
             }
             else if (rb.velocity.y < 0)
             {
                 playerState = PlayerStates.JumpDown;
-                if (onWall)
+                if (wallSliding)
                     playerState = PlayerStates.WallSlide;
             }
             else
