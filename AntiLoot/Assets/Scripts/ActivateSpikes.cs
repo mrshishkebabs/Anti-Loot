@@ -9,6 +9,8 @@ public class ActivateSpikes : MonoBehaviour
         if(collision.gameObject.tag == Tags.PLAYER)
         {
             EventBroker.CallSpikeHit();
+            FindObjectOfType<AudioManager>().Spike();
         }
     }
+
 }

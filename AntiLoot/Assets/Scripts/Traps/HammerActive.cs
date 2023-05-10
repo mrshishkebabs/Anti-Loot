@@ -16,4 +16,9 @@ public class HammerActive : MonoBehaviour
         hammerCol.enabled = false;
     }
 
+    private void HammerSound()
+    {
+        FindObjectOfType<AudioManager>().Play("Hammer");
+    }
+
 }
