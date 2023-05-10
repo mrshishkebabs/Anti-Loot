@@ -19,10 +19,15 @@ public class GameManager : MonoBehaviour
     public PlayerController test;
     public GameState state;
     public bool escapePhaseStarted = false;
+    public bool trapPhase = false;
 
     [SerializeField] private Transform startPoint;
 
- 
+
+    public GameObject TrapperWinScreen;
+    public GameObject EscapistWinScreen;
+    public GameObject resetButton;
+
 
     private void Awake()
     {
@@ -83,6 +88,7 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Stop("InGame");
         FindObjectOfType<AudioManager>().Play("SetTraps");
         escapePhaseStarted = false;
+        trapPhase = true;
     }
 
     private void HandleEscapePhase()
@@ -91,6 +97,7 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
         EventBroker.CallEscapePhaseStart();
         escapePhaseStarted = true;
+        trapPhase = false;
 
         FindObjectOfType<AudioManager>().Stop("SetTraps");
         FindObjectOfType<AudioManager>().Play("InGame");
@@ -98,10 +105,31 @@ public class GameManager : MonoBehaviour
 
     private void HandleEndPhase()
     {
+        
         FindObjectOfType<AudioManager>().Taunt();
         throw new NotImplementedException();
     }
 
+    public void TrapperWin()
+    {
+        TrapperWinScreen.SetActive(true);
+        resetButton.SetActive(true);
+        FindObjectOfType<AudioManager>().Play("taunt3");
+    }
+
+    public void EscapistWin()
+    {
+        EscapistWinScreen.SetActive(true);
+        resetButton.SetActive(true);
+    }
+
+    public void Reset()
+    {
+        TrapperWinScreen.SetActive(false);
+        EscapistWinScreen.SetActive(false);
+        resetButton.SetActive(false);
+        UpdateGameState(GameState.TrapPhase);
+    }
 }
 
 

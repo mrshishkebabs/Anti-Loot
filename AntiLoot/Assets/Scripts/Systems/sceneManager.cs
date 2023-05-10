@@ -13,30 +13,45 @@ public class sceneManager : MonoBehaviour
     Both screens will have a button that says "Play Again?. Pushing the button will restart the game, using the Reset() funciton.
      */
     
-    public PlayerController player;
-    public GameObject defeatScreen;
-    public GameObject winScreen;
+    public static sceneManager instance;
+
+    private GameObject player;
+    public GameObject TrapperWinScreen;
+    public GameObject EscapistWinScreen;
     public GameObject resetButton;
-    
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-       
+        player = PlayerManager.instance.player;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(player.hitsTillDead);
-        if(player.hitsTillDead == 0)
+        if(player.GetComponent<PlayerController>().hitsTillDead == 0)
         {
-            defeatScreen.SetActive(true);
+            TrapperWinScreen.SetActive(true);
             resetButton.SetActive(true);
+            FindObjectOfType<AudioManager>().Play("taunt3");
         }
 
-        if (player.reachedGoal == true)
+        if (player.GetComponent<PlayerController>().reachedGoal == true)
         {
-            winScreen.SetActive(true);
+            EscapistWinScreen.SetActive(true);
             resetButton.SetActive(true);
         }
 
@@ -44,9 +59,9 @@ public class sceneManager : MonoBehaviour
 
     public void Reset()
     {
-        defeatScreen.SetActive(false);
-        winScreen.SetActive(false);
+        TrapperWinScreen.SetActive(false);
+        EscapistWinScreen.SetActive(false);
         resetButton.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.instance.UpdateGameState(GameState.TrapPhase);
     }
 }
