@@ -4,14 +4,18 @@ using System.Collections;
 
 public class EventBroker : MonoBehaviour
 {
+
+
     /*Example Event
-    public static event Action onResourceCollection; */
+public static event Action onResourceCollection; */
 
     //GameManager
     public static event Action<GameState> OnGameStateChange;
     public static event Action OnTrapPhaseStart;
     public static event Action OnEscapePhaseStart;    
     public static event Action<string, int> OnCounterUpdate;
+    public static event Action<string> OnTrapperAbilitySelect;
+    public static event Action OnSpikeHit;
 
     /*Example Call
     public static void CallResourceCollection()
@@ -37,5 +41,15 @@ public class EventBroker : MonoBehaviour
     public static void CallCounterUpdate(string name, int number)
     {
         OnCounterUpdate?.Invoke(name, number);
+    }
+
+    public static void CallTrapperAbilitySelect(string ability)
+    {
+        OnTrapperAbilitySelect?.Invoke(ability);
+    }
+
+    public static void CallSpikeHit()
+    {
+        OnSpikeHit?.Invoke();
     }
 }
