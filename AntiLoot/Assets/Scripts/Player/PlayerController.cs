@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheck;
     [SerializeField] private bool onWall;
     private float wallSlideSpeed = 2f;
-    public Vector2 wallJumpForce =  new Vector2(6, 15);
+    private Vector2 wallJumpForce =  new Vector2(6, 12);
     private float wallJumpDirection;
     private float wallJumpTime = 0.2f;
     private float wallJumpCounter;
@@ -442,6 +442,7 @@ public class PlayerController : MonoBehaviour
             if (hitsTillDead == 0)
             {
                 canMove = false;
+                FindObjectOfType<AudioManager>().Play("taunt3");
                 if (lastTrapHit == Traps.TURRET)
                     playerState = PlayerStates.ShotDeath;
                 else if (lastTrapHit == Traps.BALL)
@@ -451,7 +452,7 @@ public class PlayerController : MonoBehaviour
                 else if (lastTrapHit == Traps.SPIKES)
                     playerState = PlayerStates.SpikeDeath;
                 else
-                    GameManager.instance.UpdateGameState(GameState.TrapPhase);
+                    GameManager.instance.TrapperWin();
             }
             else
             {
@@ -509,7 +510,7 @@ public class PlayerController : MonoBehaviour
         {
             reachedGoal = true;
             canMove = false;
-            GameManager.instance.UpdateGameState(GameState.TrapPhase);
+            GameManager.instance.EscapistWin();
         }
     }
 
