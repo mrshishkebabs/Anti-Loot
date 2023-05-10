@@ -68,6 +68,14 @@ public class AudioManager : MonoBehaviour
 
     public void Taunt()
     {
+        //if any of the taunt clips are already playing, return
+        if(Array.Find(sounds, sounds => sounds.name == "taunt1").source.isPlaying ||
+            Array.Find(sounds, sounds => sounds.name == "taunt2").source.isPlaying ||
+            Array.Find(sounds, sounds => sounds.name == "taunt3").source.isPlaying)
+        {
+            return;
+        }
+
         string n = UnityEngine.Random.Range(1, 4).ToString();
         Sound s = Array.Find(sounds, sounds => sounds.name == "taunt" + n);
 
@@ -78,6 +86,8 @@ public class AudioManager : MonoBehaviour
         }
         s.loop = false;
         s.source.Play();
+
+        Debug.Log("hahaha loser");
     }
 
     public void Spike()

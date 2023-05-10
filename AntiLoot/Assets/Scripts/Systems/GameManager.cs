@@ -80,7 +80,9 @@ public class GameManager : MonoBehaviour
     {
         EventBroker.CallTrapPhaseStart();
         FindObjectOfType<AudioManager>().Stop("Menu");
+        FindObjectOfType<AudioManager>().Stop("InGame");
         FindObjectOfType<AudioManager>().Play("SetTraps");
+        escapePhaseStarted = false;
     }
 
     private void HandleEscapePhase()

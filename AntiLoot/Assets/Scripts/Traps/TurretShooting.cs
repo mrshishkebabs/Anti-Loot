@@ -71,6 +71,7 @@ public class TurretShooting : MonoBehaviour
             bullet.transform.position = bulletPosition.position;
             bullet.SetActive(true);
         }
+        FindObjectOfType<AudioManager>().Play("Shoot");
     }
 
 }

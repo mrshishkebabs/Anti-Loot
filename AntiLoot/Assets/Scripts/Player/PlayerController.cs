@@ -292,7 +292,6 @@ public class PlayerController : MonoBehaviour
         {
             if (rb.velocity.y < -wallSlideSpeed)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
-            //Debug.Log("sliiiiide");
         }
 
 
