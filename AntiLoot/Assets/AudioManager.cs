@@ -10,6 +10,16 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
 
+    private void OnEnable()
+    {
+        EventBroker.OnSpikeHit += Spike;
+    }
+
+    private void OnDisable()
+    {
+        EventBroker.OnSpikeHit -= Spike;
+    }
+
     //here we will loop thru the list of Sounds and add a source to each Sounds
     private void Awake()
     {

@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class ActivateSpikes : MonoBehaviour
 {
-    public void ActivateTrap()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        gameObject.tag = Tags.TRAP;
-    }
-
-    public void DeactivateTrap()
-    {
-        gameObject.tag = Tags.UNTAGGED;
+        if(collision.gameObject.tag == Tags.PLAYER)
+        {
+            EventBroker.CallSpikeHit();
+        }
     }
 }
